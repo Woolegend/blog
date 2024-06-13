@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.bubble.css" />
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+
+<body>
+
+    <%- include('nav.ejs') %>
+    <br>
+    <input id="title" type="text" placeholder="title">
+    <br>
+    <select id="tag">
+        <option disabled selected>select tag</option>
+        <option>Algorithm</option>
+        <option>CS</option>
+        <option>HTML/CSS</option>
+        <option>Javascript</option>
+        <option>NodeJS</option>
+        <option>React</option>
+    </select>
+    <div id="editor" style="height: 220px"></div>
+    <button id="submit-btn">제출</button>
+    <script src="write.js"></script>
+</body>
+
+</html>
