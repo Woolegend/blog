@@ -1,29 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="/css/style.css" rel="stylesheet">
 </head>
-<body>
-    <header>
-        <h1>millennium</h1>
-    </header>
-    <nav>
-        <%- include('nav') %>
-    </nav>
-    <aside>
-        <ul>
-            <li><a href="/list?tag=algorithm">Algorithm</a></li>
-            <li><a href="/list?tag=cs">CS</a></li>
-            <li><a href="/list?tag=html">HTML/CSS</a></li>
-            <li><a href="/list?tag=javascript">Javascript</a></li>
-            <li><a href="/list?tag=nodejs">NodeJS</a></li>
-            <li><a href="/list?tag=react">React</a></li>
-        </ul>
-    </aside>
-    <article>
 
-    </article>
+<body>
+    <%- include('nav') %>
+        <main class="container">
+            <!-- <%- include('weather') %> -->
+
+            <%- include('write-btn') %>
+        </main>
+
+        <script type="module" src="/js/nav.js"></script>
 </body>
+
 </html>

@@ -5,80 +5,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
+    <link href="/css/style.css" rel="stylesheet">
 </head>
 
 <body>
-    <h1>로그인</h1>
-    <form action="login" method="post">
-        <input type="hidden" name="type" value="login">
-        <table>
-            <tbody>
-                <tr>
-                    <td>
-                        username :
-                    </td>
-                    <td>
-                        <input name="username" type="text">
+    <%- include('nav') %>
 
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        password :
-                    </td>
-                    <td>
-                        <input name="password" type="text">
+        <main class="container">
+            <h1>로그인</h1>
+            <form action="/login" method="post">
+                <input type="hidden" name="type" value="login">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                username :
+                            </td>
+                            <td>
+                                <input name="username" type="text">
 
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <br>
-        <button>Login</button>
-        | <a href="/forgot">까먹었다능...</a>
-    </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                password :
+                            </td>
+                            <td>
+                                <input name="password" type="text">
 
-    <br><br><br>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <button>Login</button>
+                | <a href="/forgot">까먹었다능...</a>
+            </form>
 
-    <details>
-        <summary> 계정이 없다면? </summary>
-        <h1>회원가입</h1>
-        <form action="login" method="post">
-            <input type="hidden" name="type" value="create">
-            <table>
-                <tbody>
-                    <tr>
-                        <td>
-                            username :
-                        </td>
-                        <td>
-                            <input name="username" type="text">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            password :
-                        </td>
-                        <td>
-                            <input name="password" type="text">
+            <br><br><br>
 
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <br>
-            <button>Join</button>
-            |
-            <mark title="Usernames can only contain letters, digits, dashes and underscores, and should be between 8 and 15 characters long. Passwords should be between 8 and 72 characters long.
+            <details>
+                <summary> 계정이 없다면? </summary>
+                <h1>회원가입</h1>
+                <form action="/join" method="post">
+                    <input type="hidden" name="type" value="create">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    username :
+                                </td>
+                                <td>
+                                    <input name="username" type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    password :
+                                </td>
+                                <td>
+                                    <input name="password" type="text">
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <button>Join</button>
+                    |
+                    <mark title="Usernames can only contain letters, digits, dashes and underscores, and should be between 8 and 15 characters long. Passwords should be between 8 and 72 characters long.
             ">
-                &nbsp;<u>tip</u>&nbsp;
-            </mark>
-        </form>
-    </details>
+                        &nbsp;<u>tip</u>&nbsp;
+                    </mark>
+                </form>
+            </details>
+        </main>
 
-    <br><br><br>
-
-    <a href="/">#home</a>
+        <script type="module" src="/js/nav.js"></script>
 </body>
 
 </html>

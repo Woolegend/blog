@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <%- include('nav') %>
+        <main class="container">
+            <header class="header">
+                <div class="header-title">
+                    <%= user.username %>
+                </div>
+                <div class="header-util">
+                    <button><i class="fa-solid fa-gear"></i></button>
+                    <a href="/logout">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </a>
+                </div>
+            </header>
+
+            <%- include('write-btn') %>
+        </main>
+
+        <script type="module" src="/js/nav.js"></script>
+</body>
+
+</html>

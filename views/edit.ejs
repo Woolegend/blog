@@ -20,7 +20,8 @@
 
 <body>
     <%- include('nav.ejs') %>
-        <main class="container">
+
+        <main class="container" data-task="edit">
             <div class="editor">
                 <input id="title" type="text" placeholder="title">
                 <select id="tag">
@@ -33,12 +34,11 @@
                     <option value="react">React</option>
                 </select>
                 <div id="editor" style="height: 220px"></div>
-                <button id="submit-btn">제출</button>
-
+                <button id="submit-btn">수정</button>
             </div>
         </main>
-        
-        <script type="module" src="/js/write.js"></script>
+
+        <script type="module" src="/js/edit.js"></script>
         <script type="module" src="/js/nav.js"></script>
 </body>
 
