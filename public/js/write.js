@@ -105,8 +105,7 @@ function savePost() {
       images: images,
     }
   }).then(res => {
-    console.log(res)
-    // location.href = res.data
+    location.href = res.data
   }).catch((error) => {
     console.error('Error:', error);
   });

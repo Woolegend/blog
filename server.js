@@ -407,49 +407,48 @@ app.get('/get/post', async (req, res) => {
 /***
  * 업로드 하려는 게시물이 본인 게시물이 맞는지 확인 필요
  */
-app.post('/upload/image', checkLogin, upload.single('file'),
-    async (req, res) => {
-        try {
-            const task = req.query.task
-            let temp = await mongoDB.collection('temp').findOne({ userId: req.user._id })
+app.post('/upload/image', checkLogin, upload.single('file'), async (req, res) => {
+    try {
+        const task = req.query.task
+        let temp = await mongoDB.collection('temp').findOne({ userId: req.user._id })
 
-            if (task === 'write') {
-                let images = temp.write.images
-                let length = images.length
-                images[length] = { Key: req.file.key }
-                await mongoDB.collection('temp').updateOne(
-                    { userId: req.user._id },
-                    { $set: { write: { images: images } } }
-                )
-            } else if (task === 'edit') {
-                let images = temp.edit.images
-                let length = images.length
-                images[length] = { Key: req.file.key }
-                await mongoDB.collection('temp').updateOne(
-                    { userId: req.user._id },
-                    { $set: { edit: { images: images } } }
-                )
-            } else {
-                let input = {
-                    Bucket: process.env.AWS_S3_BUCKET,
-                    Delete: {
-                        Objects: [{ Key: req.file.key }]
-                    }
+        if (task === 'write') {
+            let images = temp.write.images
+            let length = images.length
+            images[length] = { Key: req.file.key }
+            await mongoDB.collection('temp').updateOne(
+                { userId: req.user._id },
+                { $set: { write: { images: images } } }
+            )
+        } else if (task === 'edit') {
+            let images = temp.edit.images
+            let length = images.length
+            images[length] = { Key: req.file.key }
+            await mongoDB.collection('temp').updateOne(
+                { userId: req.user._id },
+                { $set: { edit: { images: images } } }
+            )
+        } else {
+            let input = {
+                Bucket: process.env.AWS_S3_BUCKET,
+                Delete: {
+                    Objects: [{ Key: req.file.key }]
                 }
-                const command = new DeleteObjectsCommand(input)
-                const response = await s3.send(command)
-                return res.send('업로드 실패')
             }
-
-            return res.send({
-                key: req.file.key,
-                location: req.file.location
-            })
-
-        } catch (e) {
-            return res.send(e)
+            const command = new DeleteObjectsCommand(input)
+            const response = await s3.send(command)
+            return res.send('업로드 실패')
         }
-    })
+
+        return res.send({
+            key: req.file.key,
+            location: req.file.location
+        })
+
+    } catch (e) {
+        return res.send(e)
+    }
+})
 
 // reply를 ejs로 보낼지 동적으로 보낼지 고민해봄
 app.get('/detail/:id', async (req, res) => {
