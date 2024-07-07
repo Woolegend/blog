@@ -121,7 +121,7 @@ async function editPost() {
                 tag: tag,
                 delta: delta,
                 html: html,
-                imgs: images
+                images: images
             }
         }).then(res => {
             location.href = res.data
