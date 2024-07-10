@@ -9,14 +9,15 @@
 </head>
 
 <body>
-    <%- include('nav') %>
-        <main class="container">
-            <!-- <%- include('weather') %> -->
+    <nav class="navbar"><%- include('nav') %></nav>
+    <div class="modal"><%- include('login') %></div>
+    <main class="container">
+        <!-- <%- include('weather') %> -->
 
-            <%- include('write-btn') %>
-        </main>
+        <%- include('write-btn') %>
+    </main>
 
-        <script type="module" src="/js/nav.js"></script>
+    <script type="module" src="/js/nav.js"></script>
 </body>
 
 </html>

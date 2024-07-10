@@ -304,7 +304,8 @@ body::-webkit-scrollbar-thumb {
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.7);
     z-index: 100;
-    /* display: none; */
+    display: none;
+    opacity: 0;
     transition: 200ms ease;
 }
 

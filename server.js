@@ -137,8 +137,8 @@ const checkLogin = (req, res, next) => {
     if (req.user === undefined) {
         return res.status(401).json(
             {
-                msg : '로그인 하렴',
-                url : '/login'
+                msg: '로그인 하렴',
+                url: '/login'
             }
         )
     }
@@ -539,9 +539,10 @@ app.delete('/delete/post/:id', checkLogin, async (req, res, next) => {
     try {
         const post = await mongoDB.collection('post').findOne({ _id: new ObjectId(req.params.id) })
 
-        if(req.user._id.equals(post.userId)){
-            return res.status(400).json(
-                {error : 'Bad Request'}
+        console.log(req.user._id, post.userId)
+        if (!req.user._id.equals(post.userId)) {
+            return res.status(403).json(
+                { msg: "승인되지 않음" }
             )
         }
 

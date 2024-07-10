@@ -10,21 +10,22 @@
 </head>
 
 <body>
-    <%- include('nav') %>
-        <main class="container">
-            <header class="header">
-                <div class="header-title"></div>
-            </header>
+    <nav class="navbar"><%- include('nav') %></nav>
+    <div class="modal"><%- include('login') %></div>
+    <main class="container">
+        <header class="header">
+            <div class="header-title"></div>
+        </header>
 
-            <div class="card-container"></div>
+        <div class="card-container"></div>
 
-        </main>
+    </main>
 
-        <%- include('write-btn') %>
+    <%- include('write-btn') %>
 
 
-            <script type="module" src="/js/list.js"></script>
-            <script type="module" src="/js/nav.js"></script>
+        <script type="module" src="/js/list.js"></script>
+        <script type="module" src="/js/nav.js"></script>
 </body>
 
 </html>

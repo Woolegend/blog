@@ -20,6 +20,5 @@ function focusBlur(focus, blur) {
     })
 }
 
-
 focusBlur(navbar, container)
 focusBlur(navbar, writeBtn)

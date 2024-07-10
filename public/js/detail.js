@@ -4,9 +4,15 @@ deleteBtn.addEventListener('click', function () {
         method: 'delete',
         url: `/delete/post/${location.pathname.match(/\/detail\/(.+)/)[1]}`
     }).then(res => {
-        location.href = '/list'
         console.log(res)
     }).catch(e => {
-        console.log(e)
+        const status = e.response.status
+        if (status === 401) {
+            const { msg, url } = e.response.data
+            alert(msg)
+            location.href = url
+        } else if (status === 403) {
+            alert(e.response.data)
+        }
     })
 })
