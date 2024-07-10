@@ -10,8 +10,6 @@ const LocalStrategy = require('passport-local')
 const { S3Client, DeleteObjectsCommand, PutObjectCommand } = require('@aws-sdk/client-s3')
 const multer = require('multer')
 const multerS3 = require('multer-s3')
-const { v1, v3, v4, v5 } = require('uuid')
-const { fileLoader } = require('ejs')
 const bcrypt = require('bcrypt')
 const MongoStore = require('connect-mongo');
 
@@ -46,7 +44,7 @@ const uploadObject = async (data) => {
     } catch (err) {
         console.error(err);
     }
-};
+}
 
 const tags = ["algorithm", "htmlcss", "javascript", "nodejs", "react"]
 
@@ -137,9 +135,14 @@ new MongoClient(process.env.MongoDB_URL).connect()
 
 const checkLogin = (req, res, next) => {
     if (req.user === undefined) {
-        return res.redirect('/login')
+        return res.status(401).json(
+            {
+                msg : '로그인 하렴',
+                url : '/login'
+            }
+        )
     }
-    next()
+    return next()
 }
 
 const checkTempStorage = async (req, res, next) => {
@@ -152,7 +155,6 @@ const checkTempStorage = async (req, res, next) => {
             edit: { images: [] }
         }
         await mongoDB.collection('temp').insertOne(tempLayout)
-        console.log("create new temp storage")
         return next()
     }
 
@@ -201,9 +203,7 @@ const checkTempStorage = async (req, res, next) => {
         const command = new DeleteObjectsCommand(input)
         const response = await s3.send(command)
     }
-
-    console.log('no problem with temp')
-    next()
+    return next()
 }
 
 app.get('/', (req, res) => {
@@ -230,7 +230,7 @@ app.post('/login', async (req, res, next) => {
     })(req, res, next)
 })
 
-app.post('/join', async (req, res, next) => {
+app.post('/join', async (req, res) => {
 
     let hashPassword = await bcrypt.hash(req.body.password, 10)
 
@@ -536,9 +536,32 @@ app.put('/edit/:id', checkLogin, async (req, res, next) => {
 })
 
 app.delete('/delete/post/:id', checkLogin, async (req, res, next) => {
-    const result = await mongoDB.collection('post').deleteOne({ _id: new ObjectId(req.params.id) })
-    console.log(result)
-    res.send(result)
+    try {
+        const post = await mongoDB.collection('post').findOne({ _id: new ObjectId(req.params.id) })
+
+        if(req.user._id.equals(post.userId)){
+            return res.status(400).json(
+                {error : 'Bad Request'}
+            )
+        }
+
+        const result = await mongoDB.collection('reply').deleteMany({ postId: post._id })
+
+        let input = {
+            Bucket: process.env.AWS_S3_BUCKET,
+            Delete: {
+                Objects: post.images
+            }
+        }
+
+        const command = new DeleteObjectsCommand(input)
+        const response = await s3.send(command)
+
+        res.send('ok')
+    } catch (e) {
+        return res.send(e)
+    }
+
 })
 
 app.get('/user', checkLogin, async (req, res) => {
