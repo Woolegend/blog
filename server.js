@@ -136,8 +136,8 @@ new MongoClient(process.env.MongoDB_URL).connect()
 const checkLogin = (req, res, next) => {
     if (req.user === undefined) {
         return res.status(401).json({
-            message : '로그인 하십쇼',
-            url : '/login'
+            message: '로그인 하십쇼',
+            url: `/login`
         })
     }
     return next()
@@ -223,7 +223,7 @@ app.post('/login', async (req, res, next) => {
         if (!user) return res.status(401).json(info.message)
         req.logIn(user, (err) => {
             if (err) return next(err)
-            res.redirect('/immigration')
+            res.redirect(`/immigration`)
         })
     })(req, res, next)
 })
@@ -270,23 +270,15 @@ app.get('/write', checkLogin, async (req, res, next) => {
     try {
         let temp = await mongoDB.collection('temp').findOne({ userId: req.user._id })
 
-        if (temp.write === undefined) {
-            await mongoDB.collection('temp')
-                .updateOne(
-                    { userId: req.user._id },
-                    { $set: { write: { images: [] } } }
-                )
-        } else {
-            if (temp.write.images.length > 0) {
-                let input = {
-                    Bucket: process.env.AWS_S3_BUCKET,
-                    Delete: {
-                        Objects: temp.write.images
-                    }
+        if (temp.write.images.length > 0) {
+            let input = {
+                Bucket: process.env.AWS_S3_BUCKET,
+                Delete: {
+                    Objects: temp.write.images
                 }
-                const command = new DeleteObjectsCommand(input)
-                const response = await s3.send(command)
             }
+            const command = new DeleteObjectsCommand(input)
+            const response = await s3.send(command)
         }
 
         await mongoDB.collection('temp')
@@ -311,14 +303,6 @@ app.post('/write', checkLogin, async (req, res) => {
                 { userId: req.user._id }
             )
 
-        if (temp.write === undefined) {
-            await mongoDB.collection('temp')
-                .updateOne(
-                    { userId: req.user._id },
-                    { $set: { write: { images: [] } } }
-                )
-        }
-
         temp.write.images.forEach(e => {
             let flag = false
             images.some(image => {
@@ -331,20 +315,23 @@ app.post('/write', checkLogin, async (req, res) => {
             if (!flag) deleteImages.push(e)
         })
 
-        let input = {
-            Bucket: process.env.AWS_S3_BUCKET,
-            Delete: {
-                Objects: deleteImages
+        if (deleteImages.length > 0) {
+            let input = {
+                Bucket: process.env.AWS_S3_BUCKET,
+                Delete: {
+                    Objects: deleteImages
+                }
             }
+            const command = new DeleteObjectsCommand(input)
+            const response = await s3.send(command)
         }
-        const command = new DeleteObjectsCommand(input)
-        const response = await s3.send(command)
 
         await mongoDB.collection('temp')
             .updateOne(
                 { userId: req.user._id },
                 { $set: { write: { images: [] } } }
             )
+
 
         let post = {
             userId: req.user._id,
@@ -357,6 +344,8 @@ app.post('/write', checkLogin, async (req, res) => {
             date: new Date(),
             edit: null
         }
+        console.log('6')
+
 
         let result = await mongoDB.collection('post').insertOne(post)
         return res.json(`/detail/${result.insertedId}`)
@@ -483,7 +472,6 @@ app.put('/edit/:id', checkLogin, async (req, res, next) => {
         let temp = await mongoDB.collection('temp').findOne({ userId: req.user._id })
 
         let allImages = [...post.images, ...temp.edit.images]
-        console.log(allImages)
         let saveImages = []
         let deleteImages = []
 
@@ -498,15 +486,17 @@ app.put('/edit/:id', checkLogin, async (req, res, next) => {
             if (!flag) deleteImages.push(e)
         })
 
-        let input = {
-            Bucket: process.env.AWS_S3_BUCKET,
-            Delete: {
-                Objects: deleteImages
+        if (deleteImages) {
+            let input = {
+                Bucket: process.env.AWS_S3_BUCKET,
+                Delete: {
+                    Objects: deleteImages
+                }
             }
-        }
 
-        const command = new DeleteObjectsCommand(input)
-        const response = await s3.send(command)
+            const command = new DeleteObjectsCommand(input)
+            const response = await s3.send(command)
+        }
 
         await mongoDB.collection('temp')
             .updateOne(

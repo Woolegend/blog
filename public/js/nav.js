@@ -21,6 +21,9 @@ function focusBlur(focus, blur) {
     })
 }
 
+focusBlur(navbar, container)
+focusBlur(navbar, writeBtn)
+
 userBtn.addEventListener('click', function (e) {
     e.preventDefault()
     axios({
@@ -29,7 +32,6 @@ userBtn.addEventListener('click', function (e) {
     }).then(res => {
         location.href = '/user'
     }).catch(e => {
-        console.log(e)
         const status = e.response.status
         if (status === 401) {
             const { message, url } = e.response.data
@@ -39,5 +41,19 @@ userBtn.addEventListener('click', function (e) {
     })
 })
 
-focusBlur(navbar, container)
-focusBlur(navbar, writeBtn)
+writeBtn.addEventListener('click', function (e) {
+    e.preventDefault()
+    axios({
+        method: 'get',
+        url: '/write',
+    }).then(res => {
+        location.href = '/write'
+    }).catch(e => {
+        const status = e.response.status
+        if (status === 401) {
+            const { message, url } = e.response.data
+            alert(message)
+            location.href = url
+        }
+    })
+})

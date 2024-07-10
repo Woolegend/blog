@@ -50,7 +50,6 @@ body::-webkit-scrollbar-thumb {
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
-    filter: blur(0);
     transition: 200ms;
     background-color: white;
 
@@ -178,7 +177,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 
-.header-title {
+.header-title{
     flex-grow: 1;
     font-size: 2rem;
     font-weight: bold;
@@ -221,16 +220,16 @@ body::-webkit-scrollbar-thumb {
     margin: 0.5rem;
 
     background-color: white;
-    box-shadow:
-        0 1px 1px rgba(0, 0, 0, 0.12),
+    box-shadow: 
+        0 1px 1px rgba(0, 0, 0, 0.12), 
         0 1px 1px rgba(0, 0, 0, 0.24);
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
     transform: translate(0, 0);
 }
 
 .card:hover {
-    box-shadow:
-        0 14px 28px rgba(0, 0, 0, 0.25),
+    box-shadow: 
+        0 14px 28px rgba(0, 0, 0, 0.25), 
         0 10px 10px rgba(0, 0, 0, 0.22);
     transform: translate(0, -0.5rem);
 }
@@ -248,7 +247,6 @@ body::-webkit-scrollbar-thumb {
     position: fixed;
     bottom: 1rem;
     right: 1rem;
-    z-index: 10;
 
     width: 3rem;
     height: 3rem;
@@ -398,35 +396,26 @@ body::-webkit-scrollbar-thumb {
     text-align: center;
 }
 
-
 @media screen and (min-width : 44rem) {
-
-    .content,
-    .card-container {
+    .content, .card-container{
         width: 39rem;
     }
 }
 
 @media screen and (min-width : 57rem) {
-
-    .content,
-    .card-container {
+    .content, .card-container {
         width: 52rem;
     }
 }
 
 @media screen and (min-width : 70rem) {
-
-    .content,
-    .card-container {
+    .content, .card-container {
         width: 65rem;
     }
 }
 
 @media screen and (min-width : 83rem) {
-
-    .content,
-    .card-container {
+    .content, .card-container {
         width: 78rem;
     }
 }

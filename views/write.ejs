@@ -20,25 +20,25 @@
 
 <body>
     <%- include('nav') %>
-    <main class="container">
-        <div class="editor">
-            <input id="title" type="text" placeholder="title">
-            <select id="tag">
-                <option value="" disabled selected>select tag</option>
-                <option value="algorithm">Algorithm</option>
-                <option value="cs">CS</option>
-                <option value="htmlcss">HTML/CSS</option>
-                <option value="javascript">Javascript</option>
-                <option value="nodejs">NodeJS</option>
-                <option value="react">React</option>
-            </select>
-            <div id="editor" style="height: 220px"></div>
-            <button id="submit-btn">제출</button>
-        </div>
-    </main>
+        <main class="container">
+            <div class="editor">
+                <input id="title" type="text" placeholder="title">
+                <select id="tag">
+                    <option value="" disabled selected>select tag</option>
+                    <option value="algorithm">Algorithm</option>
+                    <option value="cs">CS</option>
+                    <option value="htmlcss">HTML/CSS</option>
+                    <option value="javascript">Javascript</option>
+                    <option value="nodejs">NodeJS</option>
+                    <option value="react">React</option>
+                </select>
+                <div id="editor" style="height: 220px"></div>
+                <button id="submit-btn">제출</button>
+            </div>
+        </main>
 
-    <script type="module" src="/js/write.js"></script>
-    <script type="module" src="/js/nav.js"></script>
+        <script type="module" src="/js/write.js"></script>
+        <script type="module" src="/js/nav.js"></script>
 </body>
 
 </html>

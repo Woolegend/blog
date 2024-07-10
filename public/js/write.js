@@ -86,7 +86,7 @@ function getInsertImages() {
 /**
  * 게시물 저장하기
  */
-function savePost() {
+async function savePost() {
   const tag = tagSelect.options[tagSelect.selectedIndex].value
   const delta = quill.getContents()
   const html = quill.root.innerHTML
@@ -94,7 +94,7 @@ function savePost() {
 
   if (!checkPostFields()) return
 
-  axios({
+  await axios({
     method: 'post',
     url: '/write',
     data: {
@@ -106,9 +106,14 @@ function savePost() {
     }
   }).then(res => {
     location.href = res.data
-  }).catch((error) => {
-    console.error('Error:', error);
-  });
+  }).catch((e) => {
+    const status = e.response.status
+    if (status === 401) {
+      const { message, url } = e.response.data
+      alert(message)
+      location.href = url
+    }
+  })
 }
 
 document.getElementById('submit-btn').addEventListener('click', savePost)
