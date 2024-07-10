@@ -1,6 +1,7 @@
 const navbar = document.querySelector('.navbar')
 const container = document.querySelector('.container')
 const writeBtn = document.querySelector('.write-btn')
+const userBtn = document.querySelector('#user-btn')
 
 function focusBlur(focus, blur) {
     focus.addEventListener('mouseenter', function () {
@@ -19,6 +20,24 @@ function focusBlur(focus, blur) {
         }
     })
 }
+
+userBtn.addEventListener('click', function (e) {
+    e.preventDefault()
+    axios({
+        method: 'get',
+        url: '/user',
+    }).then(res => {
+        location.href = '/user'
+    }).catch(e => {
+        console.log(e)
+        const status = e.response.status
+        if (status === 401) {
+            const { message, url } = e.response.data
+            alert(message)
+            location.href = url
+        }
+    })
+})
 
 focusBlur(navbar, container)
 focusBlur(navbar, writeBtn)

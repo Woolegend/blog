@@ -6,11 +6,14 @@ deleteBtn.addEventListener('click', function () {
     }).then(res => {
         console.log(res)
     }).catch(e => {
+        console.log(e)
         const status = e.response.status
         if (status === 401) {
-            const { msg, url } = e.response.data
-            alert(msg)
-            location.href = url
+            const modal = document.querySelector('.modal')
+            modal.style.display = 'block'
+            setTimeout(() => {
+                modal.style.opacity = '1'
+            }, 10)
         } else if (status === 403) {
             alert(e.response.data)
         }

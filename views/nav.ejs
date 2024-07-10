@@ -1,81 +1,57 @@
 <script src="https://kit.fontawesome.com/472da87bcd.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-<ul class="navbar-nav">
-    <li class="logo">
-        <a href="/" class="nav-link">
-            <span class="link-text">
-                Home
-            </span>
-            <i class="fa-solid fa-angles-right"></i>
+<nav class="navbar">
+    <ul class="navbar-nav">
+        <li class="logo">
+            <a href="/" class="nav-link">
+                <span class="link-text">
+                    Home
+                </span>
+                <i class="fa-solid fa-angles-right"></i>
 
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="/list/algorithm" class="nav-link">
-            <i class="fa-solid fa-code"></i>
-            <span class="link-text">Algorithm</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="/list/htmlcss" class="nav-link">
-            <i class="fa-brands fa-html5"></i>
-            <span class="link-text">HTML/CSS</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="/list/javascript" class="nav-link">
-            <i class="fa-brands fa-js"></i>
-            <span class="link-text">Javascript</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="/list/nodejs" class="nav-link">
-            <i class="fa-brands fa-node-js"></i>
-            <span class="link-text">Node.js</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="/list/react" class="nav-link">
-            <i class="fa-brands fa-react"></i>
-            <span class="link-text">React</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="/user" class="nav-link">
-            <i class="fa-regular fa-circle-user"></i>
-            <span class="link-text">User</span>
-        </a>
-    </li>
-</ul>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="/list/algorithm" class="nav-link">
+                <i class="fa-solid fa-code"></i>
+                <span class="link-text">Algorithm</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="/list/htmlcss" class="nav-link">
+                <i class="fa-brands fa-html5"></i>
+                <span class="link-text">HTML/CSS</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="/list/javascript" class="nav-link">
+                <i class="fa-brands fa-js"></i>
+                <span class="link-text">Javascript</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="/list/nodejs" class="nav-link">
+                <i class="fa-brands fa-node-js"></i>
+                <span class="link-text">Node.js</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="/list/react" class="nav-link">
+                <i class="fa-brands fa-react"></i>
+                <span class="link-text">React</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a id="user-btn" href="/user" class="nav-link">
+                <i class="fa-regular fa-circle-user"></i>
+                <span class="link-text">User</span>
+            </a>
+        </li>
+    </ul>
+</nav>
 
-<script>
-    const navbar = document.querySelector('.navbar')
-    const header = document.querySelector('.header')
-    const container = document.querySelector('.container')
-
-    navbar.addEventListener('mouseenter', function () {
-        if (header) {
-            header.style = `
-    filter: blur(5px);
-    `
-        }
-        if (container) {
-            container.style = `
-    filter: blur(5px);
-    `
-        }
-    })
-
-    navbar.addEventListener('mouseleave', function () {
-        if (header) {
-            header.style = `
-    filter: blur(0);
-    `
-        }
-        if (container) {
-            container.style = `
-    filter: blur(0);
-    `
-        }
-    })
-</script>
+<a href="/write" class="write-btn">
+    <p>Write</p>
+    <i class="fa-solid fa-pencil"></i>
+</a>

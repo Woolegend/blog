@@ -135,12 +135,10 @@ new MongoClient(process.env.MongoDB_URL).connect()
 
 const checkLogin = (req, res, next) => {
     if (req.user === undefined) {
-        return res.status(401).json(
-            {
-                msg: '로그인 하렴',
-                url: '/login'
-            }
-        )
+        return res.status(401).json({
+            message : '로그인 하십쇼',
+            url : '/login'
+        })
     }
     return next()
 }

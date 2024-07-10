@@ -9,26 +9,23 @@
 </head>
 
 <body>
-    <nav class="navbar"><%- include('nav') %></nav>
-    <div class="modal"><%- include('login') %></div>
-    
-    <main class="container">
-        <header class="header">
-            <div class="header-title">
-                <%= user.username %>
-            </div>
-            <div class="header-util">
-                <button><i class="fa-solid fa-gear"></i></button>
-                <a href="/logout">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                </a>
-            </div>
-        </header>
+    <%- include('nav') %>
 
-        <%- include('write-btn') %>
-    </main>
+        <main class="container">
+            <header class="header">
+                <div class="header-title">
+                    <%= user.username %>
+                </div>
+                <div class="header-util">
+                    <button><i class="fa-solid fa-gear"></i></button>
+                    <a href="/logout">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </a>
+                </div>
+            </header>
+        </main>
 
-    <script type="module" src="/js/nav.js"></script>
+        <script type="module" src="/js/nav.js"></script>
 </body>
 
 </html>
