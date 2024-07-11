@@ -20,7 +20,7 @@ tags.some(e => {
 
 function addPostCards(posts) {
     posts.forEach(e => {
-        const thumbnail = e.thumbnail || "/assets/thumbnail-placeholder-500x334.webp"
+        const thumbnail = e.thumbnail || "/asset/thumbnail-placeholder-500x334.webp"
         const card = `
                 <div class="card" data-id="${e._id}">
                     <img src="${thumbnail}" alt="thumbnail" width="100%">

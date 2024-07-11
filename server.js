@@ -135,10 +135,7 @@ new MongoClient(process.env.MongoDB_URL).connect()
 
 const checkLogin = (req, res, next) => {
     if (req.user === undefined) {
-        return res.status(401).json({
-            message: '로그인 하십쇼',
-            url: `/login`
-        })
+        return res.redirect(`/login?goto=${req.url}`)
     }
     return next()
 }
@@ -223,7 +220,7 @@ app.post('/login', async (req, res, next) => {
         if (!user) return res.status(401).json(info.message)
         req.logIn(user, (err) => {
             if (err) return next(err)
-            res.redirect(`/immigration`)
+            res.redirect(`/immigration?goto=${req.query.goto}`)
         })
     })(req, res, next)
 })
@@ -257,7 +254,7 @@ app.get('/forgot', (req, res) => {
 })
 
 app.get('/immigration', checkTempStorage, async (req, res, next) => {
-    return res.redirect('/')
+    return res.status(200).json({url : req.query.goto})
 })
 
 /**

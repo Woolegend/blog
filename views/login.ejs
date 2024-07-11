@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
@@ -15,7 +16,7 @@
             <h2>Welcome Back!</h2>
 
             <button class="social-login-btn">
-                <img src="/assets/google-logo.png" alt="">
+                <img src="/asset/google-logo.png" alt="">
                 <p>Signed With Google</p>
             </button>
 
@@ -30,12 +31,34 @@
                 <input name="password" type="password" placeholder="password" autocomplete="current-password">
                 <button type="submit">Sign In</button>
             </form>
-
         </div>
 
     </div>
 
-    <!-- <script type="module" src="/js/login.js"></script> -->
+    <script>
+        const form = document.querySelector('.login-form')
+
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault()
+            const { pathname, search } = location
+            const url = pathname + search
+            const formData = new FormData(e.target)
+            const data = {}
+            for(const [key, value] of formData.entries()){
+                data[key] = value;
+            }
+
+            await axios({
+                method: "post",
+                url: url,
+                data: data
+            }).then(res => {
+                location.href = res.data.url
+            }).catch(e => {
+                console.log(e)
+            })
+        })
+    </script>
 </body>
 
 </html>
