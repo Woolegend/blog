@@ -14,6 +14,7 @@
     <%- include('nav') %>
 
     <main class="container">
+        <input id="authority" type="hidden" data-authority="<%= authority %>">
         <header class="header">
             <div class="meta-data" data-tag="<%= post.tag %>"></div>
             <div class="header-title">
@@ -33,24 +34,14 @@
             <%- post.html %>
         </article>
 
-        <section class="reply">
+        <!-- <section class="reply">
             <p>댓글</p>
             <form action="/reply" method="post">
                 <input name="postId" type="hidden" value="<%= post._id %>">
                 <input name="content" type="text" placeholder="댓글을 입력하세요">
                 <button type="submit">전송</button>
             </form>
-            <% for(let i=0; i < reply.length; i++) { %>
-                <div>
-                    <p>
-                        <b>
-                            <%= reply[i].username %>
-                        </b>
-                        <%= reply[i].content %>
-                    </p>
-                </div>
-                <% } %>
-        </section>
+        </section> -->
     </main>
 
         <script type="module" src="/js/detail.js"></script>

@@ -132,6 +132,13 @@ new MongoClient(process.env.MongoDB_URL).connect()
         console.log(err)
     })
 
+function isValidObjectId(id) {
+    if (typeof id !== 'string') return false;
+    if (id.length !== 24) return false;
+    if (!id.match(/^[0-9a-fA-F]+$/)) return false;
+    return true;
+}
+
 
 const checkLogin = (req, res, next) => {
     if (req.user === undefined) {
@@ -254,7 +261,7 @@ app.get('/forgot', (req, res) => {
 })
 
 app.get('/immigration', checkTempStorage, async (req, res, next) => {
-    return res.status(200).json({url : req.query.goto})
+    return res.status(200).json({ url: req.query.goto })
 })
 
 /**
@@ -341,11 +348,10 @@ app.post('/write', checkLogin, async (req, res) => {
             date: new Date(),
             edit: null
         }
-        console.log('6')
-
 
         let result = await mongoDB.collection('post').insertOne(post)
         return res.json(`/detail/${result.insertedId}`)
+
     } catch (e) {
         return res.send(e)
     }
@@ -437,11 +443,36 @@ app.post('/upload/image', checkLogin, upload.single('file'), async (req, res) =>
 // reply를 ejs로 보낼지 동적으로 보낼지 고민해봄
 app.get('/detail/:id', async (req, res) => {
     try {
-        let postId = new ObjectId(req.params.id)
-        let post = await mongoDB.collection('post').findOne({ _id: postId })
-        let reply = await mongoDB.collection('reply').find({ postId: postId }).toArray()
+        // 잘못된 게시물 아이디
+        if (!isValidObjectId(req.params.id)) {
+            return res.status(403).json({ msg: "잘못된 접근" })
+        }
 
-        return res.render('detail', { post: post, reply: reply })
+        let postId = new ObjectId(req.params.id)
+
+        let post = await mongoDB.collection('post').findOne({ _id: postId })
+
+        // 없는 게시물
+        if (post === undefined) {
+            return res.status(403).json({ msg: "잘못된 접근" })
+        }
+
+        // 게시물 권한
+        let authority = "disallowed";
+        if (req.user !== undefined) {
+            if (post.userId.equals(req.user._id)) {
+                authority = "allowed"
+            }
+        }
+
+        //작성자 ID를 제거하고 전송
+        delete post.userId
+
+        return res.render('detail', {
+            authority: authority,
+            post: post,
+        })
+
     } catch (e) {
         console.log(e)
         return res.send('400')
@@ -520,30 +551,72 @@ app.put('/edit/:id', checkLogin, async (req, res, next) => {
     }
 })
 
-app.delete('/delete/post/:id', checkLogin, async (req, res, next) => {
+app.delete('/delete/post/:id', async (req, res, next) => {
     try {
-        const post = await mongoDB.collection('post').findOne({ _id: new ObjectId(req.params.id) })
-
-        console.log(req.user._id, post.userId)
-        if (!req.user._id.equals(post.userId)) {
-            return res.status(403).json(
-                { msg: "승인되지 않음" }
-            )
+        // 로그인 안 함
+        if (req.user === undefined) {
+            return res.status(403).json({
+                msg: "승인되지 않음",
+            })
         }
 
-        const result = await mongoDB.collection('reply').deleteMany({ postId: post._id })
+        // 게시글 아이디가 잘못됨
+        if (!isValidObjectId(req.params.id)) {
+            return res.status(403).json({
+                msg: "잘못된 접근",
+            })
+        }
 
-        let input = {
-            Bucket: process.env.AWS_S3_BUCKET,
-            Delete: {
-                Objects: post.images
+        const postId = new ObjectId(req.params.id)
+        const post = await mongoDB.collection('post').findOne({ _id: postId })
+
+        // 존재하지 않는 게시글
+        if (post === undefined) {
+            if (!isValidObjectId(req.params.id)) {
+                return res.status(403).json({
+                    msg: "잘못된 접근",
+                })
             }
         }
 
-        const command = new DeleteObjectsCommand(input)
-        const response = await s3.send(command)
+        // 게시글 작성자와 삭제 요청자의 아이디가 다름
+        if (!req.user._id.equals(post.userId)) {
+            return res.status(403).json({
+                msg: "승인되지 않음",
+            })
+        }
 
-        res.send('ok')
+
+        // 이미지를 삽입하지 않은 게시물
+        // 이미지를 삭제에 실패 했을 때 저장하는 저장소 DB에 만들기
+        if (post.images.length > 0) {
+            let input = {
+                Bucket: process.env.AWS_S3_BUCKET,
+                Delete: {
+                    Objects: post.images
+                }
+            }
+
+            const command = new DeleteObjectsCommand(input)
+            const response = await s3.send(command)
+            console.log(response)
+        }
+
+
+        const postResult = await mongoDB.collection('post').deleteOne({ _id: postId })
+
+        if (!postResult.acknowledged) {
+            return res.status(403).json({
+                msg: "게시글 삭제 실패",
+            })
+        }
+
+        const replyResult = await mongoDB.collection('reply').deleteMany({ postId: post._id })
+
+        return res.json({
+            msg: "게시글 삭제 완료",
+            url: "/"
+        })
     } catch (e) {
         return res.send(e)
     }
@@ -590,5 +663,4 @@ app.post('/reply', checkLogin, async (req, res) => {
         console.error(e);
         res.send(e)
     }
-
 })
