@@ -453,7 +453,7 @@ app.get('/detail/:id', async (req, res) => {
         let post = await mongoDB.collection('post').findOne({ _id: postId })
 
         // 없는 게시물
-        if (post === undefined) {
+        if (post === null) {
             return res.status(403).json({ msg: "잘못된 접근" })
         }
 
@@ -481,14 +481,40 @@ app.get('/detail/:id', async (req, res) => {
 
 // url params
 // 경로 문제였다 쉬이벌...
-app.get('/edit/:id', checkLogin, async (req, res) => {
-    let postId = new ObjectId(req.params.id)
-    let post = await mongoDB.collection('post').findOne({ _id: postId })
+app.get('/edit/:id', async (req, res) => {
+    try {
+        if (req.user === undefined) {
+            return res.status(401).json({
+                msg: "승인되지 않음",
+            })
+        }
 
-    if (post.userId.equals(req.user._id)) {
+        if (!isValidObjectId(req.params.id)) {
+            return res.status(403).json({
+                msg: "승인되지 않음",
+            })
+        }
+
+        let postId = new ObjectId(req.params.id)
+        let post = await mongoDB.collection('post').findOne({ _id: postId })
+
+        if (post === null) {
+            return res.status(403).json({
+                msg: "승인되지 않음",
+            })
+        }
+
+        if (!post.userId.equals(req.user._id)) {
+            return res.status(403).json({
+                msg: "승인되지 않음",
+            })
+        }
+
         return res.render('edit')
-    } else {
-        return res.send('작성자가 다름')
+
+    } catch (e) {
+        console.log(e)
+        res.status(404).json({ msg: 'error' })
     }
 })
 
@@ -514,7 +540,7 @@ app.put('/edit/:id', checkLogin, async (req, res, next) => {
             if (!flag) deleteImages.push(e)
         })
 
-        if (deleteImages) {
+        if (deleteImages.length > 0) {
             let input = {
                 Bucket: process.env.AWS_S3_BUCKET,
                 Delete: {
@@ -555,7 +581,7 @@ app.delete('/delete/post/:id', async (req, res, next) => {
     try {
         // 로그인 안 함
         if (req.user === undefined) {
-            return res.status(403).json({
+            return res.status(401).json({
                 msg: "승인되지 않음",
             })
         }
@@ -571,7 +597,7 @@ app.delete('/delete/post/:id', async (req, res, next) => {
         const post = await mongoDB.collection('post').findOne({ _id: postId })
 
         // 존재하지 않는 게시글
-        if (post === undefined) {
+        if (post === null) {
             if (!isValidObjectId(req.params.id)) {
                 return res.status(403).json({
                     msg: "잘못된 접근",
@@ -585,7 +611,6 @@ app.delete('/delete/post/:id', async (req, res, next) => {
                 msg: "승인되지 않음",
             })
         }
-
 
         // 이미지를 삽입하지 않은 게시물
         // 이미지를 삭제에 실패 했을 때 저장하는 저장소 DB에 만들기
