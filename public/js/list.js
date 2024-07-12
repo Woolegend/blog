@@ -1,6 +1,5 @@
-const container = document.querySelector('.container')
-const headerTitle = document.querySelector('.header-title')
 const cardContainer = document.querySelector('.card-container')
+const headerTitle = document.querySelector('.header-title')
 const tags = [
     { tag: "algorithm", icon: "fa-solid fa-code", title: "Algorithm" },
     { tag: "htmlcss", icon: "fa-brands fa-html5", title: "HTML/CSS" },

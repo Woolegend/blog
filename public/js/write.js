@@ -16,6 +16,10 @@ const toolbarOptions = [
 const quill = new Quill('#editor', {
   debug: 'warn',
   modules: {
+    syntax: true,
+    highlight: function (text) {
+      return Prism.highlight(text, Prism.languages.javascript, 'javascript');
+    },
     toolbar: toolbarOptions,
   },
   placeholder: 'Hello World!!!',

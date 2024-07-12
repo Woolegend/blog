@@ -12,13 +12,11 @@
     --bg-primary: #23232e;
     --bg-secondary: #141418;
     --transition-speed: 600ms;
-}
-
-body {
-    color: black;
-    background-color: white;
-    margin: 0;
-    padding: 0;
+    --w-1: 30rem;
+    --w-2: 43rem;
+    --w-3: 56rem;
+    --w-4: 69rem;
+    --w-5: 82rem;
 }
 
 body::-webkit-scrollbar {
@@ -33,48 +31,104 @@ body::-webkit-scrollbar-thumb {
     background: #6649b8;
 }
 
-.container {
-    box-sizing: border-box;
-    margin-left: 5rem;
-    padding-top: 6rem;
+.root {
+    width: 100vw;
     min-height: 100vh;
-    transition: 200ms;
-    filter: blur(0);
     background-color: #eee;
 }
 
-.header {
-    position: fixed;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: border-box;
-    transition: 200ms;
-    background-color: white;
-
-    padding: 1rem;
-    top: 0;
-    left: 0;
-    min-height: 5rem;
+.page-wrapper {
     width: 100%;
-    border-bottom: 2px solid #eee;
+    padding-left: 5rem;
+}
 
-    box-shadow: #141418;
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: var(--w-1);
+    margin: auto;
+    background-color: white;
+    transition: 200ms;
+}
+
+.container {
+    width: 100%;
+}
+
+.header-content {
+    border-bottom: 2px solid #eee;
+    padding: 1rem;
+}
+
+.header-title {
+    text-align: center;
+    font-weight: bold;
+}
+
+.header-writer {
+    text-align: center;
+}
+
+.top-navigation {
+    display: flex;
+    padding: 1rem;
+    align-items: end;
+}
+
+.post-active {
+    flex-grow: 1;
+}
+
+.fa-unlock,
+.fa-lock {
+    transition: 200ms;
+}
+
+.post-edit,
+.post-delete {
+    margin-left: 0.5rem;
+}
+
+.active-btn {
+    width: 2.7rem;
+    padding: 2px;
+    border: 2px solid #eee;
+    border-radius: 1rem;
+
+    text-align: left;
+}
+
+.active {
+    transform: translate(0, 0);
+    transition: 200ms;
+}
+
+.deactive {
+    transform: translate(1.4rem, 0);
+}
+
+.edit-btn {
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: black;
+}
+
+.edit-btn:visited {
+    color: black;
+}
+
+.delete-btn {
+    border: none;
+    background-color: none;
+    font-size: 1.2rem;
 }
 
 .content {
-    box-sizing: border-box;
     padding: 1rem;
-    width: 26rem;
-    margin: auto;
-    background-color: white;
 }
 
-.reply {
-    padding: 1rem;
-    background-color: #eee;
-}
+
+/* --- */
 
 .navbar {
     position: fixed;
@@ -85,6 +139,7 @@ body::-webkit-scrollbar-thumb {
     top: 0;
     width: 5rem;
     height: 100vh;
+    border: none;
     z-index: 10;
 }
 
@@ -176,37 +231,15 @@ body::-webkit-scrollbar-thumb {
     transform: rotate(-180deg);
 }
 
-
-.header-title{
-    flex-grow: 1;
-    font-size: 2rem;
-    font-weight: bold;
-    height: 3rem;
-}
-
-.edit-btn {
-    text-decoration: none;
-    font-size: 1.2rem;
-    color: black;
-}
-
-.edit-btn:visited {
-    color: black;
-}
-
-.delete-btn {
-    border: none;
-    background-color: none;
-    font-size: 1.2rem;
-}
-
 .card-container {
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
-    width: 26rem;
-    height: 100%;
+    padding: 2rem;
+    width: 100%;
     margin: auto;
+    background-color: white;
+    transition: 200ms;
 }
 
 /* card w4 : h5 */
@@ -220,16 +253,16 @@ body::-webkit-scrollbar-thumb {
     margin: 0.5rem;
 
     background-color: white;
-    box-shadow: 
-        0 1px 1px rgba(0, 0, 0, 0.12), 
+    box-shadow:
+        0 1px 1px rgba(0, 0, 0, 0.12),
         0 1px 1px rgba(0, 0, 0, 0.24);
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
     transform: translate(0, 0);
 }
 
 .card:hover {
-    box-shadow: 
-        0 14px 28px rgba(0, 0, 0, 0.25), 
+    box-shadow:
+        0 14px 28px rgba(0, 0, 0, 0.25),
         0 10px 10px rgba(0, 0, 0, 0.22);
     transform: translate(0, -0.5rem);
 }
@@ -397,26 +430,31 @@ body::-webkit-scrollbar-thumb {
     text-align: center;
 }
 
-@media screen and (min-width : 44rem) {
-    .content, .card-container{
-        width: 39rem;
+@media screen and (min-width : 48rem) {
+
+
+    .main-wrapper {
+        width: var(--w-2);
     }
 }
 
-@media screen and (min-width : 57rem) {
-    .content, .card-container {
-        width: 52rem;
+@media screen and (min-width : 61rem) {
+
+    .main-wrapper {
+        width: var(--w-3);
     }
 }
 
-@media screen and (min-width : 70rem) {
-    .content, .card-container {
-        width: 65rem;
+@media screen and (min-width : 74rem) {
+
+    .main-wrapper {
+        width: var(--w-4);
     }
 }
 
-@media screen and (min-width : 83rem) {
-    .content, .card-container {
-        width: 78rem;
+@media screen and (min-width : 87rem) {
+
+    .main-wrapper {
+        width: var(--w-5);
     }
 }

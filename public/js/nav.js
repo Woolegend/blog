@@ -21,8 +21,8 @@ function focusBlur(focus, blur) {
     })
 }
 
-focusBlur(navbar, container)
-focusBlur(navbar, writeBtn)
+// focusBlur(navbar, container)
+// focusBlur(navbar, writeBtn)
 
 userBtn.addEventListener('click', function (e) {
     e.preventDefault()

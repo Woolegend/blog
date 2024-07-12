@@ -16,11 +16,12 @@ const toolbarOptions = [
 const quill = new Quill('#editor', {
     debug: 'warn',
     modules: {
-        toolbar: toolbarOptions,
+      syntax: true,
+      toolbar: toolbarOptions,
     },
     placeholder: 'Hello World!!!',
     theme: 'snow',
-});
+  });
 
 quill.getModule('toolbar').addHandler('image', showImageDialog)
 

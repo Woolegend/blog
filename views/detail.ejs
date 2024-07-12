@@ -6,46 +6,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <link href="/css/style.css" rel="stylesheet">
 </head>
 
 <body>
+    <div class="root">
+        <input id="authority" type="hidden" value="<%= authority %>">
+        <input id="access" type="hidden" value="public">
 
-    <%- include('nav') %>
+        <div class="left-navigation">
+            <%- include('nav') %>
+        </div>
 
-    <main class="container">
-        <input id="authority" type="hidden" data-authority="<%= authority %>">
-        <header class="header">
-            <div class="meta-data" data-tag="<%= post.tag %>"></div>
-            <div class="header-title">
-                <%= post.title %>
+        <div class="page-wrapper">
+            <div class="main-wrapper">
+
+                <!-- header -->
+                <div class="container">
+                    <header class="header-content">
+                        <div class="header-title">
+                            <h1>
+                                <%= post.title %>
+                            </h1>
+                        </div>
+                        <div class="header-writer">
+                            <p>
+                                <%= post.username %>
+                            </p>
+                        </div>
+                    </header>
+                </div>
+
+                <!-- util -->
+                <div class="container">
+                    <div class="top-navigation">
+                        <div class="post-active">
+                            <i class="fa-solid fa-unlock"></i>
+                            <button class="active-btn">
+                                <i class="fa-solid fa-circle active"></i>
+                            </button>
+                            <i class="fa-solid fa-lock"></i>
+
+                        </div>
+                        <div class="post-edit">
+                            <a class="edit-btn" href="/edit/<%= post._id %>">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        </div>
+                        <div class="post-delete">
+                            <button class="delete-btn">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- content -->
+                <div class="container">
+                    <main class="content">
+                        <article class="main-page-content">
+                            <%- post.html %>
+                        </article>
+                    </main>
+                </div>
+
             </div>
-            <div class="header-util">
-                <a class="edit-btn" href="/edit/<%= post._id %>">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                </a>
-                <button class="delete-btn">
-                    <i class="fa-solid fa-trash-can"></i>
-                </button>
-            </div>
-        </header>
+        </div>
+    </div>
 
-        <article class="content">
-            <%- post.html %>
-        </article>
-
-        <!-- <section class="reply">
-            <p>댓글</p>
-            <form action="/reply" method="post">
-                <input name="postId" type="hidden" value="<%= post._id %>">
-                <input name="content" type="text" placeholder="댓글을 입력하세요">
-                <button type="submit">전송</button>
-            </form>
-        </section> -->
-    </main>
-
-        <script type="module" src="/js/detail.js"></script>
-        <script type="module" src="/js/nav.js"></script>
+    <script type="module" src="/js/detail.js"></script>
+    <script type="module" src="/js/nav.js"></script>
 </body>
 
 </html>
