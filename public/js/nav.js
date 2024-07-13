@@ -1,5 +1,5 @@
 const navbar = document.querySelector('.navbar')
-const container = document.querySelector('.container')
+const pageWrapper = document.querySelector('.page-wrapper')
 const writeBtn = document.querySelector('.write-btn')
 const userBtn = document.querySelector('#user-btn')
 
@@ -21,8 +21,8 @@ function focusBlur(focus, blur) {
     })
 }
 
-// focusBlur(navbar, container)
-// focusBlur(navbar, writeBtn)
+focusBlur(navbar, pageWrapper)
+focusBlur(navbar, writeBtn)
 
 userBtn.addEventListener('click', function (e) {
     e.preventDefault()
