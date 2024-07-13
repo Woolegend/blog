@@ -6,8 +6,14 @@ const unlockIcon = document.querySelector('.fa-unlock')
 const lockIcon = document.querySelector('.fa-lock')
 const deleteBtn = document.querySelector('.delete-btn')
 const editBtn = document.querySelector('.edit-btn')
+const commentInput = document.querySelector('#comment-input');
 const postId = location.pathname.match(/\/detail\/(.+)/)[1]
 let access = document.querySelector('#access').value
+
+commentInput.addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = this.scrollHeight + 'px';
+});
 
 if (authority === "allowed") {
 

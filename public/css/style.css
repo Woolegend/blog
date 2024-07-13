@@ -5,6 +5,7 @@
 }
 
 :root {
+    overflow-x: hidden;
     font-size: 16px;
     font-family: 'Open Sans';
     --text-primary: #b6b6b6;
@@ -34,7 +35,7 @@ body::-webkit-scrollbar-thumb {
 .root {
     width: 100vw;
     min-height: 100vh;
-    background-color: #eee;
+    background-color: white;
 }
 
 .page-wrapper {
@@ -127,6 +128,48 @@ body::-webkit-scrollbar-thumb {
     padding: 1rem;
 }
 
+.comment-title {
+    border-bottom: 2px solid #eee;
+    padding: 1rem;
+    padding-top: 0;
+}
+
+.comment-list {
+    display: flex;
+    flex-direction: column;
+
+    padding: 0 1rem
+}
+
+.comment-card {
+    margin-top: 1rem;
+    height: auto;
+    border-bottom: 1px solid #ccc;
+    padding: 0 1rem;
+}
+
+.comment-content{
+    padding : 1rem
+}
+
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2rem;
+}
+
+#comment-input {
+    height: auto;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    overflow: hidden;
+
+    font-size: 16px;
+}
 
 /* --- */
 
