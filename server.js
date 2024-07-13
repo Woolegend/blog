@@ -213,6 +213,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
+    if(req.user !== undefined) return res.redirect('/user')
     res.render('login')
 })
 
@@ -457,6 +458,8 @@ app.get('/detail/:id', async (req, res) => {
             return res.status(403).json({ msg: "잘못된 접근" })
         }
 
+        let login = req.user === undefined ? false : true
+
         // 게시물 권한
         let authority = "disallowed";
         if (req.user !== undefined) {
@@ -470,6 +473,7 @@ app.get('/detail/:id', async (req, res) => {
 
         return res.render('detail', {
             authority: authority,
+            login : login,
             post: post,
         })
 
@@ -636,7 +640,7 @@ app.delete('/delete/post/:id', async (req, res, next) => {
             })
         }
 
-        const replyResult = await mongoDB.collection('reply').deleteMany({ postId: post._id })
+        const commentResult = await mongoDB.collection('comment').deleteMany({ postId: post._id })
 
         return res.json({
             msg: "게시글 삭제 완료",
@@ -662,7 +666,7 @@ app.get('/logout', checkLogin, async (req, res) => {
     });
 });
 
-app.post('/reply', checkLogin, async (req, res) => {
+app.post('/comment', checkLogin, async (req, res) => {
     try {
         if (req.user === undefined) {
             return res.send('로그인 하라능')
@@ -675,7 +679,7 @@ app.post('/reply', checkLogin, async (req, res) => {
             return res.send('없는 게시물이라능')
         }
 
-        const result = await mongoDB.collection('reply')
+        const result = await mongoDB.collection('comment')
             .insertOne({
                 postId: postId,
                 userId: req.user._id,

@@ -1,4 +1,4 @@
-const authority = document.querySelector('#authority').value
+// top navigation
 const topNavigation = document.querySelector('.top-navigation')
 const activeBtn = document.querySelector('.active-btn')
 const activeIcon = document.querySelector('.active-btn i')
@@ -6,15 +6,35 @@ const unlockIcon = document.querySelector('.fa-unlock')
 const lockIcon = document.querySelector('.fa-lock')
 const deleteBtn = document.querySelector('.delete-btn')
 const editBtn = document.querySelector('.edit-btn')
-const commentInput = document.querySelector('#comment-input');
-const postId = location.pathname.match(/\/detail\/(.+)/)[1]
+
+// comment
+const commentInput = document.querySelector('#comment-input')
+const loginBtn = document.querySelector('.alert-info button')
+
+//meta data
+const authority = document.querySelector('#authority').value
+const postId = document.querySelector('#post-id').value
+const isLogin = document.querySelector('#is-login').value
 let access = document.querySelector('#access').value
 
-commentInput.addEventListener('input', function() {
-  this.style.height = 'auto';
-  this.style.height = this.scrollHeight + 'px';
+//comment form height styled
+commentInput.addEventListener('input', function () {
+    this.style.height = 'auto';
+    this.style.height = this.scrollHeight + 'px';
 });
 
+loginBtn.addEventListener('click', function () {
+    location.href = `/login?goto=/detail/${postId}`
+})
+
+if(isLogin === 'true'){
+    document.querySelector('.alert-info').style.display = 'none'
+} else {
+    document.querySelector('.comment-form').style.display = 'none'
+}
+
+
+// post edit authority
 if (authority === "allowed") {
 
     if (access === 'public') {
