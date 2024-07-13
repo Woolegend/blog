@@ -9,23 +9,43 @@
 </head>
 
 <body>
-    <%- include('nav') %>
+    <div class="root">
+        <div class="left-navigation">
+            <%- include('nav') %>
+        </div>
 
-        <main class="container">
-            <header class="header">
-                <div class="header-title">
-                    <%= user.username %>
+        <div class="page-wrapper">
+            <div class="main-wrapper">
+                <div class="container">
+                    <header class="header-content">
+                        <div class="header-title">
+                            <h1>
+                                <%= user.username %>
+                            </h1>
+                        </div>
+                    </header>
                 </div>
-                <div class="header-util">
-                    <button><i class="fa-solid fa-gear"></i></button>
-                    <a href="/logout">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                    </a>
-                </div>
-            </header>
-        </main>
 
-        <script type="module" src="/js/nav.js"></script>
+                <div class="container">
+                    <div class="top-navigation">
+                        <div style="flex-grow : 1"></div>
+                        <div class="user-option">
+                            <button class="button-tag-btn">
+                                <i class="fa-solid fa-gear"></i>
+                            </button>
+                        </div>
+                        <div class="user-logout">
+                            <a class="a-tag-btn" href="/logout">
+                                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/nav.js"></script>
 </body>
 
 </html>

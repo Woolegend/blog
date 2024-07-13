@@ -49,6 +49,7 @@ body::-webkit-scrollbar-thumb {
     flex-direction: column;
     width: var(--w-1);
     margin: auto;
+    margin-bottom: 60px;
     background-color: white;
     transition: 200ms;
 }
@@ -87,7 +88,9 @@ body::-webkit-scrollbar-thumb {
 }
 
 .post-edit,
-.post-delete {
+.post-delete,
+.user-option,
+.user-logout {
     margin-left: 0.5rem;
 }
 
@@ -109,24 +112,25 @@ body::-webkit-scrollbar-thumb {
     transform: translate(1.4rem, 0);
 }
 
-.edit-btn {
+.a-tag-btn {
     text-decoration: none;
     font-size: 1.2rem;
     color: black;
 }
 
-.edit-btn:visited {
+.a-tag-btn:visited {
     color: black;
 }
 
-.delete-btn {
+.button-tag-btn {
     border: none;
-    background-color: none;
+    background-color: white;
     font-size: 1.2rem;
 }
 
 .content {
     padding: 1rem;
+    margin-bottom: 32px;
 }
 
 .comment-title {
