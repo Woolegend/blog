@@ -124,7 +124,7 @@ body::-webkit-scrollbar-thumb {
 
 .button-tag-btn {
     border: none;
-    background-color: white;
+    background-color: rgba(0, 0, 0, 0);
     font-size: 1.2rem;
 }
 
@@ -164,6 +164,10 @@ body::-webkit-scrollbar-thumb {
     padding: 2rem;
 }
 
+.comment-form label {
+    margin-bottom: 8px;
+}
+
 #comment-input {
     height: auto;
     width: 100%;
@@ -191,6 +195,52 @@ body::-webkit-scrollbar-thumb {
     text-decoration: underline;
     background-color: inherit;
     border: none;
+}
+
+
+.emoticon-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.emoticon {
+    width: 100px;
+    height: 100px;
+}
+
+.emoticon-list {
+    padding: 10px;
+}
+
+.emoticon-card {
+    background-color: #eee;
+    padding: 10px;
+}
+
+.emoticon-header {
+    background-color: #ccc;
+    display: flex;
+    padding: 10px;
+}
+
+.emoticon-title {
+    flex-grow: 1;
+    font-weight: bold;
+}
+
+.emoticon-content {
+    padding: 0 10px;
+    height: 200px;
+    overflow-y: scroll;
+}
+
+.emoticon-content::-webkit-scrollbar {
+    display: none;
 }
 
 /* --- */

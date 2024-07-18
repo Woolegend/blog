@@ -5,17 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link href="/css/style.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="root">
+
         <div class="left-navigation">
             <%- include('nav') %>
         </div>
 
         <div class="page-wrapper">
             <div class="main-wrapper">
+
+                <!-- header -->
                 <div class="container">
                     <header class="header-content">
                         <div class="header-title">
@@ -26,6 +30,7 @@
                     </header>
                 </div>
 
+                <!-- top navigation -->
                 <div class="container">
                     <div class="top-navigation">
                         <div style="flex-grow : 1"></div>
@@ -41,11 +46,26 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- emoticon -->
+                <div class="container">
+                    <form class="emoticon-form" action="/emoticon" method="post">
+                        <input class="emoticon-title" name="title" type="text" placeholder="title">
+                        <input class="emoticon-input" name="files" type="file" multiple>
+                        <div class="preview-list"></div>
+                        <button type="submit">제출</button>
+                    </form>
+
+                    <div class="emoticon-list"></div>
+                </div>
+
+
             </div>
         </div>
     </div>
 
     <script type="module" src="/js/nav.js"></script>
+    <script type="module" src="/js/user.js"></script>
 </body>
 
 </html>

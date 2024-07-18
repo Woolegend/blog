@@ -7,7 +7,7 @@ const { MongoClient, ObjectId } = require('mongodb')
 const session = require('express-session')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
-const { S3Client, DeleteObjectsCommand, PutObjectCommand } = require('@aws-sdk/client-s3')
+const { S3Client, DeleteObjectsCommand } = require('@aws-sdk/client-s3')
 const multer = require('multer')
 const multerS3 = require('multer-s3')
 const bcrypt = require('bcrypt')
@@ -20,31 +20,20 @@ const s3 = new S3Client({
         secretAccessKey: process.env.AWS_S3_SECRET || ""
     }
 })
+
 const upload = multer({
     storage: multerS3({
         s3: s3,
         bucket: process.env.AWS_S3_BUCKET,
+        // acl : "public-read",
+        contentType: multerS3.AUTO_CONTENT_TYPE,
         key: function (req, file, cb) {
-            cb(null, Date.now().toString()) //업로드시 파일명 변경가능
+            console.log(file)
+            cb(null, file.originalname + '-' + Date.now().toString())
         }
-
-    })
+    }),
+    limits: { fileSize: 5 * 1024 * 1024, files: 100 }
 })
-
-const uploadObject = async (data) => {
-    const command = new PutObjectCommand({
-        Bucket: process.env.AWS_S3_BUCKET,
-        Key: Date.now().toString(),
-        Body: data,
-    });
-
-    try {
-        const response = await s3.send(command);
-        console.log(response);
-    } catch (err) {
-        console.error(err);
-    }
-}
 
 const tags = ["algorithm", "htmlcss", "javascript", "nodejs", "react"]
 
@@ -53,7 +42,7 @@ app.use(express.static(path.join(__dirname + '/public')))
 app.set('view engine', 'ejs')
 app.set('views', './views');
 app.use(express.json({
-    limit: "10mb"
+    limit: "100mb"
 }))
 app.use(express.urlencoded({ extended: true }))
 
@@ -213,7 +202,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-    if(req.user !== undefined) return res.redirect('/user')
+    if (req.user !== undefined) return res.redirect('/user')
     res.render('login')
 })
 
@@ -473,7 +462,7 @@ app.get('/detail/:id', async (req, res) => {
 
         return res.render('detail', {
             authority: authority,
-            login : login,
+            login: login,
             post: post,
         })
 
@@ -693,3 +682,55 @@ app.post('/comment', checkLogin, async (req, res) => {
         res.send(e)
     }
 })
+
+app.post('/emoticon', checkLogin, upload.array('files[]', 100), async (req, res) => {
+
+    try {
+        if (req.user.authority === 'admin') {
+
+            const data = {
+                title: req.body.title,
+                location: "https://millennium00forum1.s3.ap-northeast-2.amazonaws.com/",
+                files: [],
+            }
+
+            if (req.files.length > 0) {
+                req.files.forEach(e => {
+                    data.files.push({ Key: e.key })
+                })
+            }
+
+            let result = await mongoDB.collection('emoticon').insertOne(data)
+
+            return res.send(result)
+        }
+        return res.send('권한없음')
+    } catch (e) {
+        return res.send(e)
+    }
+})
+
+app.delete('/emoticon/:id', checkLogin, async (req, res) => {
+    const emoticonId = req.params.id
+    const emoticon = await mongoDB.collection('emoticon').find(
+        { _id: emoticonId })
+
+    if (emoticon.files.length > 0) {
+        let input = {
+            Bucket: process.env.AWS_S3_BUCKET,
+            Delete: {
+                Objects: emoticon.files
+            }
+        }
+
+        const command = new DeleteObjectsCommand(input)
+        const response = await s3.send(command)
+        console.log(response)
+    }
+})
+
+app.get('/get/emoticon', checkLogin, async (req, res) => {
+    const result = await mongoDB.collection('emoticon').find().toArray()
+    res.send(result)
+})
+
