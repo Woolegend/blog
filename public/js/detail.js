@@ -8,8 +8,15 @@ const deleteBtn = document.querySelector('.delete-btn')
 const editBtn = document.querySelector('.edit-btn')
 
 // comment
-const commentInput = document.querySelector('#comment-input')
+const commentForm = document.querySelector('.comment-form')
+const commentInput = document.querySelector('.comment-input')
+const commentBtn = document.querySelector('.comment-btn')
 const loginBtn = document.querySelector('.alert-info button')
+
+// emoticon
+const emoticonBtn = document.querySelector('.emoticon-btn')
+const emoticonInput = document.querySelector('.emoticon-input')
+const emoticonContent = document.querySelector('.emoticon-content')
 
 //meta data
 const authority = document.querySelector('#authority').value
@@ -17,20 +24,22 @@ const postId = document.querySelector('#post-id').value
 const isLogin = document.querySelector('#is-login').value
 let access = document.querySelector('#access').value
 
-//comment form height styled
+// comment form height styled
 commentInput.addEventListener('input', function () {
     this.style.height = 'auto';
     this.style.height = this.scrollHeight + 'px';
 });
 
+// logout alert href
 loginBtn.addEventListener('click', function () {
     location.href = `/login?goto=/detail/${postId}`
 })
 
-if(isLogin === 'true'){
+// show comment form when user log in
+if (isLogin === 'true') {
     document.querySelector('.alert-info').style.display = 'none'
 } else {
-    document.querySelector('.comment-form').style.display = 'none'
+    document.querySelector('.comment-input-wrapper').style.display = 'none'
 }
 
 
@@ -88,3 +97,34 @@ if (authority === "allowed") {
     topNavigation.style.display = 'none'
 }
 
+commentBtn.addEventListener('click', function() {
+    emoticonInput.style.display = 'none'
+    commentForm.style.display = 'block'
+    commentBtn.classList.add('nav-tap-active')
+    emoticonBtn.classList.remove('nav-tap-active')
+})
+
+emoticonBtn.addEventListener('click', async function () {
+    emoticonInput.style.display = 'block'
+    commentForm.style.display = 'none'
+    emoticonBtn.classList.add('nav-tap-active')
+    commentBtn.classList.remove('nav-tap-active')
+
+    if (emoticonInput.dataset.load === "false") {
+        await axios({
+            method: "get",
+            url: "/get/emoticon?value=좋았쓰"
+        }).then(res => {
+            for (let i = 0; i < res.data.files.length; i++) {
+                const img = document.createElement('img')
+                const url = res.data.location + res.data.files[i].Key
+                img.src = url;
+                img.classList.add('emoticon')
+                emoticonContent.appendChild(img);
+            }
+            emoticonInput.dataset.load = "true"
+        }).catch(e => {
+            console.log(e)
+        })
+    }
+})

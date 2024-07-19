@@ -66,7 +66,7 @@
                         </div>
                         <div class="post-delete">
                             <button class="delete-btn button-tag-btn">
-                                <i class="fa-solid fa-trash-can"></i>
+                                <i class="fa-regular fa-trash-can"></i>
                             </button>
                         </div>
                     </div>
@@ -81,6 +81,7 @@
                     </main>
                 </div>
 
+                <!-- comment list -->
                 <div class="container">
                     <div class="comment-title">
                         <i class="fa-regular fa-comments"></i>
@@ -131,21 +132,53 @@
                         </div>
                     </div>
 
-                    <div class="alert-info">
-                        <i class="fa-regular fa-bell"></i>
-                        댓글을 작성하시려면
-                        <button>로그인</button>
-                        하세요
-                    </div>
+                    <!-- comment input form -->
+                    <div class="container">
 
-                    <form action="/comment" class="comment-form">
-                        <input name="postId" type="hidden" value="<%= post._id%>">
-                        <label for="comment-input">
-                            <i class="fa-regular fa-circle-user"></i>
-                            댓글작성
-                        </label>
-                        <textarea name="content" id="comment-input" rows="3" placeholder="댓글을 입력하세요"></textarea>
-                    </form>
+                        <!-- logout -->
+                        <div class="alert-info">
+                            <i class="fa-regular fa-bell"></i>
+                            댓글을 작성하시려면
+                            <button>로그인</button>
+                            하세요
+                        </div>
+
+                        <!-- login -->
+                        <div class="comment-input-wrapper">
+
+                            <div class="comment-input-header">
+                                <div class="comment-input-title">
+                                    <i class="fa-regular fa-circle-user"></i>
+                                    댓글작성
+                                </div>
+                                <button class="nav-tap nav-tap-active comment-btn" type="button">
+                                    <i class="fa-solid fa-t"></i>
+                                    텍스트
+                                </button>
+                                <button class="nav-tap emoticon-btn" type="button">
+                                    <i class="fa-regular fa-face-smile"></i>
+                                    이모티콘
+                                </button>
+                            </div>
+
+                            <!-- text comment input -->
+                            <form action="/comment" class="comment-form">
+                                <input name="postId" type="hidden" value="<%= post._id%>">
+                                <textarea name="content" class="comment-input" rows="3"
+                                    placeholder="댓글을 입력하세요"></textarea>
+                            </form>
+
+                            <!-- emoticon comment input -->
+                            <div class="emoticon-input" data-load="false">
+                                <div class="emoticon-card">
+                                    <div class="emoticon-main">
+                                        <div class="emoticon-content"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

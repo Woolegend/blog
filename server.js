@@ -730,7 +730,12 @@ app.delete('/emoticon/:id', checkLogin, async (req, res) => {
 })
 
 app.get('/get/emoticon', checkLogin, async (req, res) => {
-    const result = await mongoDB.collection('emoticon').find().toArray()
-    res.send(result)
+    if (req.query.value === undefined) {
+        const result = await mongoDB.collection('emoticon').find().toArray()
+        res.send(result)
+    } else {
+        const result = await mongoDB.collection('emoticon').findOne({title : req.query.value})
+        res.send(result)
+    }
 })
 

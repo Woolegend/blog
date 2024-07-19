@@ -36,7 +36,7 @@ emoticonForm.addEventListener('submit', async function (e) {
         },
         data: formData
     }).then(res => {
-        console.log(res)
+        location.reload(true)
     }).catch(e => {
         console.log(e)
     })
@@ -54,15 +54,19 @@ axios({
 }).then(res => {
     const emoticon = res.data;
     const modal = document.querySelector('.modal')
+    const positiveBtn = document.querySelector('.positive-btn')
+    const negativeBtn = document.querySelector('.negative-btn')
     const layout = `
     <div class="emoticon-card">
         <div class="emoticon-header">
             <p class="emoticon-title"></p>
             <button class="delete-btn button-tag-btn">
-                <i class="fa-solid fa-trash-can"></i>
+                <i class="fa-regular fa-trash-can"></i>
             </button>
         </div>
-        <div class="emoticon-content"></div>
+        <div class="emoticon-main">
+            <div class="emoticon-content"></div>
+        </div>
     </div>
     `
 
@@ -72,8 +76,8 @@ axios({
 
         const card = emoticonList.lastElementChild
         const title = card.querySelector('.emoticon-title')
-        const list = card.querySelector('.emoticon-content')
-        const deleteBtn = card.querySelector('delete-btn')
+        const content = card.querySelector('.emoticon-content')
+        const deleteBtn = card.querySelector('.delete-btn')
 
         title.innerText = e.title
 
@@ -82,8 +86,24 @@ axios({
             const url = e.location + e.files[i].Key
             img.src = url;
             img.classList.add('emoticon')
-            list.appendChild(img);
+            content.appendChild(img);
         }
+
+        deleteBtn.addEventListener('click', function () {
+            modal.style.display = "block"
+            setTimeout(()=>{
+                modal.style.opacity = "1"
+            }, 50)
+            positiveBtn.addEventListener('click', function () {
+                console.log('aa')
+            })
+            negativeBtn.addEventListener('click', function() {
+                modal.style.opacity = "0"
+                setTimeout(()=>{
+                    modal.style.display = "none"
+                }, 200)
+            })
+        })
     })
 
 }).catch(e => {
