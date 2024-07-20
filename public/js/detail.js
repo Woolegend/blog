@@ -42,7 +42,6 @@ if (isLogin === 'true') {
     document.querySelector('.comment-input-wrapper').style.display = 'none'
 }
 
-
 // post edit authority
 if (authority === "allowed") {
 
@@ -97,13 +96,16 @@ if (authority === "allowed") {
     topNavigation.style.display = 'none'
 }
 
-commentBtn.addEventListener('click', function() {
+
+// input type text comment
+commentBtn.addEventListener('click', function () {
     emoticonInput.style.display = 'none'
-    commentForm.style.display = 'block'
+    commentForm.style.display = 'flex'
     commentBtn.classList.add('nav-tap-active')
     emoticonBtn.classList.remove('nav-tap-active')
 })
 
+// input type emoticon comment
 emoticonBtn.addEventListener('click', async function () {
     emoticonInput.style.display = 'block'
     commentForm.style.display = 'none'
@@ -121,10 +123,74 @@ emoticonBtn.addEventListener('click', async function () {
                 img.src = url;
                 img.classList.add('emoticon')
                 emoticonContent.appendChild(img);
+
+                img.addEventListener('dblclick', async function () {
+
+                    const formData = new FormData()
+                    formData.append("postId", postId)
+                    formData.append("type", 'emoticon')
+                    formData.append("content", url)
+
+                    await axios({
+                        method: "post",
+                        url: '/comment',
+                        data: {
+                            postId : postId,
+                            type : 'emoticon',
+                            content : url
+                        }
+                    }).then(res => {
+                        location.reload(true)
+                    }).catch(e => {
+                        console.log(e)
+                    })
+                })
             }
             emoticonInput.dataset.load = "true"
         }).catch(e => {
             console.log(e)
         })
     }
+})
+
+// request to server get comments
+axios({
+    method: "get",
+    url: `/get/comment/${postId}`
+}).then(res => {
+    const commentList = document.querySelector('.comment-list')
+    const comments = res.data
+
+
+    const layout = `
+        <div class="comment-card">
+            <div class="comment-writer"></div>
+            <div class="comment-content">
+        </div>`
+
+    comments.forEach(comment => {
+        commentList.insertAdjacentHTML('beforeend', layout)
+        const card = commentList.lastElementChild
+
+        card.querySelector('.comment-writer').insertAdjacentHTML(
+            'beforeend',
+            `<i class="fa-regular fa-comment"></i>
+            ${comment.username}`
+        )
+
+        if (comment.type === 'emoticon') {
+            card.querySelector('.comment-content').insertAdjacentHTML(
+                'beforeend',
+                `<img class="emoticon" src="${comment.content}" alt="emoticon">`
+            )
+        } else {
+            card.querySelector('.comment-content').insertAdjacentHTML(
+                'beforeend',
+                `${comment.content}`
+            )
+        }
+    })
+
+}).catch(e => {
+    console.log(e)
 })

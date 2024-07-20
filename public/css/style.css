@@ -32,6 +32,10 @@ body::-webkit-scrollbar-thumb {
     background: #6649b8;
 }
 
+footer {
+    height: 20rem;
+}
+
 .root {
     width: 100vw;
     min-height: 100vh;
@@ -204,6 +208,10 @@ body::-webkit-scrollbar-thumb {
     margin-bottom: 32px;
 }
 
+.content img {
+    max-width: 100%;
+}
+
 .comment-title {
     border-bottom: 2px solid #eee;
     padding: 1rem;
@@ -244,7 +252,7 @@ body::-webkit-scrollbar-thumb {
 /* 댓글 입력창 헤더 > 텍스트 박스 */
 .comment-input-title {
     flex-grow: 1;
-    border-bottom: 2px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
 
 /* 댓글 입력창 헤더 > 이모티콘 버튼 */
@@ -256,11 +264,11 @@ body::-webkit-scrollbar-thumb {
     padding: 8px;
     padding-bottom: 4px;
 
-    border-bottom: 2px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
 
 .nav-tap-active {
-    border: 2px solid #ccc;
+    border: 1px solid #ccc;
     border-bottom: 0;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
@@ -270,8 +278,8 @@ body::-webkit-scrollbar-thumb {
 /* 댓글 입력폼 */
 .comment-form {
     display: flex;
-    align-items: flex-start;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-end;
 }
 
 /* 댓글 입력창 */
@@ -283,8 +291,16 @@ body::-webkit-scrollbar-thumb {
     border-radius: 4px;
     resize: none;
     overflow: hidden;
-
     font-size: 16px;
+}
+
+.comment-submit-btn {
+    background-color: #eee;
+    border: 1px solid #ccc;
+    padding: 4px 8px;
+    width: 48px;
+    border-radius: 8px;
+    margin: 4px;
 }
 
 /* 이모티콘 입력창 */

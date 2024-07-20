@@ -28,7 +28,6 @@ const upload = multer({
         // acl : "public-read",
         contentType: multerS3.AUTO_CONTENT_TYPE,
         key: function (req, file, cb) {
-            console.log(file)
             cb(null, file.originalname + '-' + Date.now().toString())
         }
     }),
@@ -656,35 +655,60 @@ app.get('/logout', checkLogin, async (req, res) => {
 });
 
 app.post('/comment', checkLogin, async (req, res) => {
-    try {
-        if (req.user === undefined) {
-            return res.send('로그인 하라능')
-        }
 
-        const postId = new ObjectId(req.body.postId)
-        let post = await mongoDB.collection('post').findOne({ _id: postId })
+    // ERROR #1 전달받은 데이터 없음
+    if (req.body === undefined) {
+        return res.status(403).send('comment error code #1')
+    }
+    // ERROR #2 게시물 ID 형식이 올바르지 않음
+    if (!isValidObjectId(req.body.postId)) {
+        return res.status(403).send('comment error code #2')
+    }
+    // ERROR #3 댓글 타입이 올바르지 않음
+    if (req.body.type !== 'text' && req.body.type !== 'emoticon') {
+        return res.status(403).send('comment error code #3')
+    }
+    // ERROR #4 댓글 내용이 없음
+    if (req.body.content === '') {
+        return res.status(403).send('comment error code #4')
+    }
 
-        if (post === null) {
-            return res.send('없는 게시물이라능')
-        }
+    const postId = new ObjectId(req.body.postId)
+    let post = await mongoDB.collection('post').findOne({ _id: postId })
 
+    // ERROR #5 게시물이 존재하지 않음
+    if (post === null) {
+        return res.status(403).send('comment error code #5')
+    }
+
+    try{
         const result = await mongoDB.collection('comment')
-            .insertOne({
-                postId: postId,
-                userId: req.user._id,
-                username: req.user.username,
-                content: req.body.content,
-                date: new Date(),
-            })
-        res.redirect(`/detail/${req.body.postId}`)
+        .insertOne({
+            postId: postId,
+            userId: req.user._id,
+            username: req.user.username,
+            type: req.body.type,
+            content: req.body.content,
+            date: new Date(),
+        })
+    } catch(e){
+        return res.status(404).send('comment upload fail')
+    }
+
+    res.redirect(`/detail/${req.body.postId}`)
+})
+
+app.get('/get/comment/:id', async (req, res) => {
+    try {
+        const postId = new ObjectId(req.params.id)
+        const result = await mongoDB.collection('comment').find({ postId: postId }).toArray()
+        return res.send(result)
     } catch (e) {
-        console.error(e);
-        res.send(e)
+
     }
 })
 
 app.post('/emoticon', checkLogin, upload.array('files[]', 100), async (req, res) => {
-
     try {
         if (req.user.authority === 'admin') {
 
@@ -710,7 +734,7 @@ app.post('/emoticon', checkLogin, upload.array('files[]', 100), async (req, res)
     }
 })
 
-app.delete('/emoticon/:id', checkLogin, async (req, res) => {
+app.delete('/delete/emoticon/:id', checkLogin, async (req, res) => {
     const emoticonId = req.params.id
     const emoticon = await mongoDB.collection('emoticon').find(
         { _id: emoticonId })
@@ -734,7 +758,7 @@ app.get('/get/emoticon', checkLogin, async (req, res) => {
         const result = await mongoDB.collection('emoticon').find().toArray()
         res.send(result)
     } else {
-        const result = await mongoDB.collection('emoticon').findOne({title : req.query.value})
+        const result = await mongoDB.collection('emoticon').findOne({ title: req.query.value })
         res.send(result)
     }
 })
