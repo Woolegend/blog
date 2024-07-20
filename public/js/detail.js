@@ -124,8 +124,8 @@ emoticonBtn.addEventListener('click', async function () {
                 img.classList.add('emoticon')
                 emoticonContent.appendChild(img);
 
+                // emoticon comment submit
                 img.addEventListener('dblclick', async function () {
-
                     const formData = new FormData()
                     formData.append("postId", postId)
                     formData.append("type", 'emoticon')
@@ -135,9 +135,9 @@ emoticonBtn.addEventListener('click', async function () {
                         method: "post",
                         url: '/comment',
                         data: {
-                            postId : postId,
-                            type : 'emoticon',
-                            content : url
+                            postId: postId,
+                            type: 'emoticon',
+                            content: url
                         }
                     }).then(res => {
                         location.reload(true)
@@ -153,6 +153,15 @@ emoticonBtn.addEventListener('click', async function () {
     }
 })
 
+commentForm.addEventListener('submit', function (e) {
+    e.preventDefault()
+
+    if (commentInput.value === '') {
+        document.querySelector('.comment-input-alert').innerText = "#댓글을 입력하렴"
+    } else commentForm.submit()
+
+})
+
 // request to server get comments
 axios({
     method: "get",
@@ -161,6 +170,7 @@ axios({
     const commentList = document.querySelector('.comment-list')
     const comments = res.data
 
+    document.querySelector('.comment-count').innerText = comments.length
 
     const layout = `
         <div class="comment-card">
@@ -179,15 +189,12 @@ axios({
         )
 
         if (comment.type === 'emoticon') {
-            card.querySelector('.comment-content').insertAdjacentHTML(
-                'beforeend',
-                `<img class="emoticon" src="${comment.content}" alt="emoticon">`
-            )
+            const img = document.createElement('img')
+            img.src = comment.content
+            img.classList.add('emoticon')
+            card.querySelector('.comment-content').appendChild(img);
         } else {
-            card.querySelector('.comment-content').insertAdjacentHTML(
-                'beforeend',
-                `${comment.content}`
-            )
+            card.querySelector('.comment-content').innerText = `${comment.content}`
         }
     })
 
