@@ -279,7 +279,6 @@ footer {
 .comment-form {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-end;
 }
 
 /* 댓글 입력창 */
@@ -292,6 +291,12 @@ footer {
     resize: none;
     overflow: hidden;
     font-size: 16px;
+}
+
+.comment-input-alert { 
+    flex-grow: 1;
+    min-width: 50%;
+    color: red;
 }
 
 .comment-submit-btn {
