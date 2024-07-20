@@ -698,6 +698,8 @@ app.post('/comment', checkLogin, async (req, res) => {
     res.redirect(`/detail/${req.body.postId}`)
 })
 
+
+
 app.get('/get/comment/:id', async (req, res) => {
     try {
         const postId = new ObjectId(req.params.id)
@@ -708,31 +710,33 @@ app.get('/get/comment/:id', async (req, res) => {
     }
 })
 
-app.post('/emoticon', checkLogin, upload.array('files[]', 100), async (req, res) => {
-    try {
-        if (req.user.authority === 'admin') {
 
-            const data = {
-                title: req.body.title,
-                location: "https://millennium00forum1.s3.ap-northeast-2.amazonaws.com/",
-                files: [],
-            }
+// UI 변경 전까지 중지
+// app.post('/emoticon', checkLogin, upload.array('files[]', 100), async (req, res) => {
+//     try {
+//         if (req.user.authority === 'admin') {
 
-            if (req.files.length > 0) {
-                req.files.forEach(e => {
-                    data.files.push({ Key: e.key })
-                })
-            }
+//             const data = {
+//                 title: req.body.title,
+//                 location: "https://millennium00forum1.s3.ap-northeast-2.amazonaws.com/",
+//                 files: [],
+//             }
 
-            let result = await mongoDB.collection('emoticon').insertOne(data)
+//             if (req.files.length > 0) {
+//                 req.files.forEach(e => {
+//                     data.files.push({ Key: e.key })
+//                 })
+//             }
 
-            return res.send(result)
-        }
-        return res.send('권한없음')
-    } catch (e) {
-        return res.send(e)
-    }
-})
+//             let result = await mongoDB.collection('emoticon').insertOne(data)
+
+//             return res.send(result)
+//         }
+//         return res.send('권한없음')
+//     } catch (e) {
+//         return res.send(e)
+//     }
+// })
 
 app.delete('/delete/emoticon/:id', checkLogin, async (req, res) => {
     const emoticonId = req.params.id
