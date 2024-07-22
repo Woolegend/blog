@@ -293,13 +293,13 @@ footer {
     font-size: 16px;
 }
 
-.comment-input-alert { 
+.comment-input-alert {
     flex-grow: 1;
     min-width: 50%;
     color: red;
 }
 
-.comment-submit-btn {
+.comment-submit-btn, .write-submit-btn {
     background-color: #eee;
     border: 1px solid #ccc;
     padding: 4px 8px;
@@ -392,6 +392,41 @@ footer {
 
 .emoticon-content::-webkit-scrollbar {
     display: none;
+}
+
+.editor-form {
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    padding: 1rem;
+}
+
+.editor {
+    width: 100%;
+    height: fit-content;
+}
+
+.select-flex-wrap {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.write-select {
+    width: 49%;
+    font-size: 24px;
+    color: #ccc;
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+.write-title-input {
+    width: 100%;
+    font-size: 24px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 8px;
 }
 
 /* --- */
@@ -536,10 +571,6 @@ footer {
 
 .card-content {
     padding: 0.5rem;
-}
-
-.editor {
-    margin: 1rem;
 }
 
 .write-btn {

@@ -120,4 +120,4 @@ async function savePost() {
   })
 }
 
-document.getElementById('submit-btn').addEventListener('click', savePost)
+document.querySelector('.write-submit-btn').addEventListener('click', savePost)

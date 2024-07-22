@@ -5,16 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.bubble.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" />
+
     <link rel="stylesheet" href="/css/style.css">
+
+
 </head>
 
 
@@ -27,7 +29,7 @@
         <div class="page-wrapper">
             <div class="main-wrapper">
                 <div class="container">
-                    <header>
+                    <header class="header-content">
                         <h1 class="header-title">
                             Write New Post
                         </h1>
@@ -35,19 +37,30 @@
                 </div>
 
                 <div class="container">
-                    <div class="editor">
-                        <input id="title" type="text" placeholder="title">
-                        <select id="tag">
-                            <option value="" disabled selected>select tag</option>
-                            <option value="algorithm">Algorithm</option>
-                            <option value="cs">CS</option>
-                            <option value="htmlcss">HTML/CSS</option>
-                            <option value="javascript">Javascript</option>
-                            <option value="nodejs">NodeJS</option>
-                            <option value="react">React</option>
-                        </select>
-                        <div id="editor" style="height: 220px"></div>
-                        <button id="submit-btn">제출</button>
+                    <div class="editor-form">
+                        <div class="select-flex-wrap">
+                            <select id="tab" class="write-select">
+                                <option value="" disabled selected>select tab</option>
+                            </select>
+                            
+                            <select id="tag" class="write-select">
+                                <option value="" disabled selected>select tag</option>
+                                <option value="algorithm">Algorithm</option>
+                                <option value="cs">CS</option>
+                                <option value="htmlcss">HTML/CSS</option>
+                                <option value="javascript">Javascript</option>
+                                <option value="nodejs">NodeJS</option>
+                                <option value="react">React</option>
+                            </select>
+                        </div>
+
+                        <input id="title" class="write-title-input" type="text" placeholder="제목을 입력하세요">                        
+
+                        <div class="editor">
+                            <div id="editor" style="height: 50vh;"></div>
+                        </div>
+
+                        <button class="write-submit-btn">제출</button>
                     </div>
                 </div>
             </div>
