@@ -1,4 +1,5 @@
 const titleInput = document.querySelector('#title')
+const categoriSelect = document.querySelector('#categori')
 const tagSelect = document.querySelector('#tag')
 
 const toolbarOptions = [
@@ -59,11 +60,14 @@ async function uploadImage(file) {
 }
 
 function checkPostFields() {
-  if (titleInput.value === "") {
-    alert("제목을 입력하세요")
+  if (categoriSelect.options[categoriSelect.selectedIndex].value == "") {
+    alert("카테고리를 선택하세요")
     return false;
   } else if (tagSelect.options[tagSelect.selectedIndex].value == "") {
     alert("태그를 선택하세요")
+    return false;
+  } else if (titleInput.value === "") {
+    alert("제목을 입력하세요")
     return false;
   } else if (quill.getLength() === 1) {
     alert("내용을 입력하세요")
@@ -91,6 +95,7 @@ function getInsertImages() {
  * 게시물 저장하기
  */
 async function savePost() {
+  const categori = categoriSelect.options[categoriSelect.selectedIndex].value
   const tag = tagSelect.options[tagSelect.selectedIndex].value
   const delta = quill.getContents()
   const html = quill.root.innerHTML
@@ -103,6 +108,7 @@ async function savePost() {
     url: '/write',
     data: {
       title: titleInput.value,
+      categori: categori,
       tag: tag,
       delta: delta,
       html: html,
