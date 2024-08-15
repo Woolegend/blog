@@ -232,8 +232,27 @@ footer {
     padding: 0 1rem;
 }
 
+.comment-header{
+    display: flex;
+}
+
+.comment-writer{
+    flex-grow: 1;
+}
+
+.comment-date{
+    margin-right: 8px;
+}
+
 .comment-content {
     padding: 1rem
+}
+
+.comment-delete-btn{
+    border: none;
+    background-color: white;
+    color: red;
+    font-weight: bold;
 }
 
 
@@ -299,7 +318,8 @@ footer {
     color: red;
 }
 
-.comment-submit-btn, .write-submit-btn {
+.comment-submit-btn,
+.write-submit-btn {
     background-color: #eee;
     border: 1px solid #ccc;
     padding: 4px 8px;
@@ -395,7 +415,7 @@ footer {
 }
 
 .editor-form {
-    display:flex;
+    display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
     padding: 1rem;
@@ -427,6 +447,29 @@ footer {
     padding: 8px;
     border: 1px solid #ccc;
     margin-bottom: 8px;
+}
+
+.option-list {
+    width: var(--w-1);
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.option-card {
+    background-color: #eee;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 8px 24px;
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.flex-box {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 8px;
 }
 
 /* --- */

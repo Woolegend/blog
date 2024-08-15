@@ -12,6 +12,7 @@ const multer = require('multer')
 const multerS3 = require('multer-s3')
 const bcrypt = require('bcrypt')
 const MongoStore = require('connect-mongo');
+const { v4: uuidv4 } = require('uuid');
 
 const s3 = new S3Client({
     region: process.env.AWS_S3_REGION || "",
@@ -101,7 +102,11 @@ passport.deserializeUser(async (user, done) => {
     // 문제가 없는데 왜 ObjectId에 가로선이 뜨는지 모르겠음
     // 이유는 그냥 권장하지 않는 방식이라 그렇지 오류가 발생하지 않는다.
     let result = await mongoDB.collection('user').findOne({ _id: new ObjectId(user.id) })
+
+    // password는 보안상의 이유로 제거한다.
     delete result.password
+
+
     process.nextTick(() => {
         return done(null, result)
     })
@@ -205,17 +210,31 @@ app.get('/login', (req, res) => {
     res.render('login')
 })
 
-app.post('/login', async (req, res, next) => {
-    // const { type, username, password } = req.body
-    // console.log(typeof(type), typeof(username), typeof(password))
 
-    // if(typeof(username) !== 'string') 
+/**
+ * @todo
+ * 로그인 시 id, pw 정규식 체크 추가 필요
+ */
+app.post('/login', async (req, res, next) => {
 
     passport.authenticate('local', (error, user, info) => {
         if (error) return res.status(500).json(error)
         if (!user) return res.status(401).json(info.message)
         req.logIn(user, (err) => {
             if (err) return next(err)
+
+            // uuid 생성 로직
+            // if (req.user.uuid === undefined) {
+            //     const uuid = uuidv4();
+            //     mongoDB.collection('user').updateOne(
+            //         { _id : req.user._id },
+            //         {
+            //             $set: {
+            //                 uuid: uuid
+            //             }
+            //         })
+            // }
+
             res.redirect(`/immigration?goto=${req.query.goto}`)
         })
     })(req, res, next)
@@ -249,6 +268,12 @@ app.get('/forgot', (req, res) => {
     res.send('힘내렴')
 })
 
+/**
+ * 로그인 하기 이전 사용자가 있던 위치로 이동시키는 요청
+ * 
+ * 로그인한 유저에게 필요한 정보를 업데이트하거나
+ * 저장공간등을 할당해주는 장소
+ */
 app.get('/immigration', checkTempStorage, async (req, res, next) => {
     return res.status(200).json({ url: req.query.goto })
 })
@@ -642,6 +667,7 @@ app.delete('/delete/post/:id', async (req, res, next) => {
 
 app.get('/user', checkLogin, async (req, res) => {
     let result = await mongoDB.collection('user').findOne({ _id: req.user._id })
+
     res.render('user', { user: result })
 })
 
@@ -681,17 +707,17 @@ app.post('/comment', checkLogin, async (req, res) => {
         return res.status(403).send('comment error code #5')
     }
 
-    try{
+    try {
         const result = await mongoDB.collection('comment')
-        .insertOne({
-            postId: postId,
-            userId: req.user._id,
-            username: req.user.username,
-            type: req.body.type,
-            content: req.body.content,
-            date: new Date(),
-        })
-    } catch(e){
+            .insertOne({
+                postId: postId,
+                userId: req.user._id,
+                username: req.user.username,
+                type: req.body.type,
+                content: req.body.content,
+                date: new Date(),
+            })
+    } catch (e) {
         return res.status(404).send('comment upload fail')
     }
 
@@ -699,44 +725,107 @@ app.post('/comment', checkLogin, async (req, res) => {
 })
 
 
+app.get('/manage', checkLogin, async (req, res) => {
+    if (req.user.authority !== "admin") {
+        res.status(403).send('권한 없음')
+    }
+
+    res.render("manage")
+})
+
+app.get('/manage/user', checkLogin, async (req, res) => {
+    if (req.user.authority !== "admin") {
+        res.status(403).send('권한 없음')
+    }
+    res.render("manage_user")
+})
+
+app.get('/manage/emoticon', checkLogin, async (req, res) => {
+    if (req.user.authority !== "admin") {
+        res.status(403).send('권한 없음')
+    }
+    res.render("manage_emoticon")
+})
+
+app.get('/manage/post', checkLogin, async (req, res) => {
+    if (req.user.authority !== "admin") {
+        res.status(403).send('권한 없음')
+    }
+    res.render("manage_post")
+})
+
 
 app.get('/get/comment/:id', async (req, res) => {
     try {
         const postId = new ObjectId(req.params.id)
         const result = await mongoDB.collection('comment').find({ postId: postId }).toArray()
+
+        if (req.user !== undefined) {
+            result.forEach(e => {
+                if (e.userId.equals(req.user._id)) {
+                    e.authority = 'allowed'
+                } else {
+                    e.authority = 'notAllowed'
+                }
+            })
+        }
+
         return res.send(result)
     } catch (e) {
 
     }
 })
 
-
-// UI 변경 전까지 중지
-// app.post('/emoticon', checkLogin, upload.array('files[]', 100), async (req, res) => {
-//     try {
-//         if (req.user.authority === 'admin') {
-
-//             const data = {
-//                 title: req.body.title,
-//                 location: "https://millennium00forum1.s3.ap-northeast-2.amazonaws.com/",
-//                 files: [],
-//             }
-
-//             if (req.files.length > 0) {
-//                 req.files.forEach(e => {
-//                     data.files.push({ Key: e.key })
-//                 })
-//             }
-
-//             let result = await mongoDB.collection('emoticon').insertOne(data)
-
-//             return res.send(result)
-//         }
-//         return res.send('권한없음')
-//     } catch (e) {
-//         return res.send(e)
-//     }
+/**
+ * @todo
+ * 
+ * 댓글 수정하기를 만드시오
+ * 
+ */
+// app.put('/edit/comment/:id', checkLogin, async (req, res) => {
+//     const commentId = new ObjectId(req.params.id)
+//     const result = await mongoDB.collection('comment').find({_id : commentId})
 // })
+
+app.delete('/delete/comment/:id', checkLogin, async (req, res) => {
+    const commentId = new ObjectId(req.params.id)
+    const comment = await mongoDB.collection('comment').findOne({ _id: commentId })
+
+    if (req.user._id.equals(comment.userId)) {
+        const result = await mongoDB.collection('comment').deleteOne({ _id: commentId })
+        return res.status(200).send(result)
+    } else {
+        return res.status(403).send('not found')
+    }
+})
+
+
+
+app.post('/emoticon', checkLogin, upload.array('files[]', 100), async (req, res) => {
+    try {
+        if (req.user.authority === 'admin') {
+
+            const data = {
+                title: req.body.title,
+                location: "https://millennium00forum1.s3.ap-northeast-2.amazonaws.com/",
+                files: [],
+            }
+
+            if (req.files.length > 0) {
+                req.files.forEach(e => {
+                    data.files.push({ Key: e.key })
+                })
+            }
+
+            let result = await mongoDB.collection('emoticon').insertOne(data)
+
+            return res.send(result)
+        }
+        return res.send('권한없음')
+    } catch (e) {
+        return res.send(e)
+    }
+})
 
 app.delete('/delete/emoticon/:id', checkLogin, async (req, res) => {
     const emoticonId = req.params.id
@@ -766,4 +855,3 @@ app.get('/get/emoticon', checkLogin, async (req, res) => {
         res.send(result)
     }
 })
-

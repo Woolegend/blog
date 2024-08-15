@@ -174,7 +174,7 @@ axios({
 
     const layout = `
         <div class="comment-card">
-            <div class="comment-writer"></div>
+            <div class="comment-header"></div> 
             <div class="comment-content">
         </div>`
 
@@ -182,11 +182,37 @@ axios({
         commentList.insertAdjacentHTML('beforeend', layout)
         const card = commentList.lastElementChild
 
-        card.querySelector('.comment-writer').insertAdjacentHTML(
+        card.querySelector('.comment-header').insertAdjacentHTML(
             'beforeend',
-            `<i class="fa-regular fa-comment"></i>
-            ${comment.username}`
+            `<div class="comment-writer">
+                <i class="fa-regular fa-comment"></i>
+                ${comment.username}
+            </div>
+            <div class="comment-date">2024-08-16</div>
+            `
         )
+
+        if (comment.authority === 'allowed') {
+            card.querySelector('.comment-header').insertAdjacentHTML(
+                'beforeend',
+                `<button 
+                    class="comment-delete-btn" 
+                    data-id="${comment._id}">
+                    x</button>`
+            )
+            card.querySelector('.comment-delete-btn').addEventListener('click', function (e) {
+                axios({
+                    method: "delete",
+                    url: `/delete/comment/${e.target.dataset.id}`
+                }).then(res => {
+                    alert('삭제했다능')
+                    location.reload(true)
+                }).catch(err=>{
+                    alert("실패라능...")
+                    console.log(err)
+                })
+            })
+        }
 
         if (comment.type === 'emoticon') {
             const img = document.createElement('img')
