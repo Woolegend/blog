@@ -201,6 +201,19 @@ const checkTempStorage = async (req, res, next) => {
     return next()
 }
 
+function getDatetime() {
+    const date = new Date()
+
+    const year = date.getFullYear() // 연도
+    const month = String(date.getMonth() + 1).padStart(2, '0') // 월 (0부터 시작하므로 +1)
+    const day = String(date.getDate()).padStart(2, '0') // 일
+    const hours = String(date.getHours()).padStart(2, '0') // 시
+    const minutes = String(date.getMinutes()).padStart(2, '0') // 분
+    const seconds = String(date.getSeconds()).padStart(2, '0') // 초
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}` // DATETIME 형식으로 조합
+}
+
 app.get('/', (req, res) => {
     res.render('index')
 })
@@ -257,7 +270,8 @@ app.post('/join', async (req, res) => {
     let newcomer = {
         username: req.body.username,
         password: hashPassword,
-        authority: "user"
+        authority: "user",
+        create: getDatetime()
     }
     const result = await mongoDB.collection('user').insertOne(newcomer)
 
@@ -359,7 +373,7 @@ app.post('/write', checkLogin, async (req, res) => {
             delta: delta,
             html: html,
             images: saveImages,
-            date: new Date(),
+            date: getDatetime(),
             edit: null
         }
 
@@ -715,7 +729,7 @@ app.post('/comment', checkLogin, async (req, res) => {
                 username: req.user.username,
                 type: req.body.type,
                 content: req.body.content,
-                date: new Date(),
+                date: getDatetime(),
             })
     } catch (e) {
         return res.status(404).send('comment upload fail')
