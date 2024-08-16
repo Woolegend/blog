@@ -26,7 +26,7 @@ function addPostCards(posts) {
                     <div class="card-content">
                         <h3>${e.title}</h3>
                         <p>${e.username}</p>
-                        <p style="opacity: 0.5; font-weight: bold; font-size: 0.7rem;">2024.07.01</p>
+                        <p style="opacity: 0.5; font-weight: bold; font-size: 0.7rem;">${e.date}</p>
                     </div>
                 </div>
             `
