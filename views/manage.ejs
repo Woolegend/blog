@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="root">
+
+        <div class="left-navigation">
+            <%- include('nav') %>
+        </div>
+
+        <div class="page-wrapper">
+            <div class="main-wrapper">
+
+                <!-- header -->
+                <div class="container">
+                    <header class="header-content">
+                        <div class="header-title">
+                            <h1>
+                                Admin Page
+                            </h1>
+                        </div>
+                    </header>
+                </div>
+
+                <!-- management option -->
+                <div class="container">
+                    <div class="option-list">
+
+                        <div class="option-card manage-user">
+                            <p class="option-title">
+                                <i class="fa-regular fa-user"></i>
+                                user management
+                            </p>
+                        </div>
+
+                        <div class="option-card manage-emoticon">
+                            <p class="option-title">
+                                <i class="fa-regular fa-face-smile"></i>
+                                emoticon management
+                            </p>
+                        </div>
+
+                        <div class="option-card manage-post">
+                            <p class="option-title">
+                                <i class="fa-regular fa-file-lines"></i>
+                                post management
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/nav.js"></script>
+    <script type="module" src="/js/manage/manage.js"></script>
+</body>
+
+</html>

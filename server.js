@@ -325,6 +325,11 @@ app.get('/write', checkLogin, async (req, res, next) => {
     }
 })
 
+/**
+ * @todo
+ * 
+ * 전달받은 데이터를 검증한다.
+ */
 app.post('/write', checkLogin, async (req, res) => {
     try {
         let { title, tag, delta, html, images } = req.body
@@ -655,7 +660,6 @@ app.delete('/delete/post/:id', async (req, res, next) => {
 
             const command = new DeleteObjectsCommand(input)
             const response = await s3.send(command)
-            console.log(response)
         }
 
 

@@ -1,0 +1,37 @@
+.categori-manage-wrapper{
+    border: 2px solid #ccc;
+    background-color: #eee;
+
+    padding: 16px;
+}
+
+.categori-input-wrapper {
+    padding: 8px;
+    border-radius: 1rem;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.tag-input-wrapper {
+    padding: 8px;
+    border-radius: 1rem;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.tag-preview-list {
+    margin: 8px;
+    padding: 8px;
+    max-height: 320px;
+    overflow-y: scroll;
+    background-color: white;
+}
+
+.tag-preview-card {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 8px;
+    border-bottom: 1px solid black;
+}
