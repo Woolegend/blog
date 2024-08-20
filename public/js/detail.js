@@ -188,7 +188,7 @@ axios({
                 <i class="fa-regular fa-comment"></i>
                 ${comment.username}
             </div>
-            <div class="comment-date">2024-08-16</div>
+            <div class="comment-date">${comment.date}</div>
             `
         )
 
