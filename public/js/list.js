@@ -24,7 +24,7 @@ function addPostCards(posts) {
                 <div class="card" data-id="${e._id}">
                     <img src="${thumbnail}" alt="thumbnail" width="100%">
                     <div class="card-content">
-                        <h3>${e.title}</h3>
+                        <h4 style="overflow:hidden; display:inline-block;width:max-content;">${e.title}</h4>
                         <p>${e.username}</p>
                         <p style="opacity: 0.5; font-weight: bold; font-size: 0.7rem;">${e.date}</p>
                     </div>
