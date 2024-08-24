@@ -1,6 +1,8 @@
 # BLOG
 ## 개발자 블로그를 만들어보자
 
+https://www.millennium00.blog/
+
 ## 기술
 - [AWS] - 파일 저장소 및 호스팅
 - [Express] - 사용한 네트워크 프레임워크
