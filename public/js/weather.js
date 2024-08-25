@@ -2,7 +2,7 @@ const button = document.querySelector('.button')
 const tempSection = document.querySelector('.temperature');
 const descSection = document.querySelector('.description');
 const iconSection = document.querySelector('.icon');
-const API_KEY = '86d3aaec382e85fcfafab5803349bb5f'
+const API_KEY = process.env.OPEN_WEATHER_MAP_KEY
 
 
 button.addEventListener('click', () => {
