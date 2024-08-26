@@ -1,4 +1,5 @@
 const titleInput = document.querySelector('#title')
+const categoriSelect = document.querySelector('#categori')
 const tagSelect = document.querySelector('#tag')
 
 const toolbarOptions = [
@@ -56,17 +57,20 @@ async function uploadImage(file) {
 }
 
 function checkPostFields() {
-    if (titleInput.value === "") {
-        alert("제목을 입력하세요")
+    if (categoriSelect.options[categoriSelect.selectedIndex].value == "") {
+        alert("카테고리를 선택하세요")
         return false;
-    } else if (tagSelect.options[tagSelect.selectedIndex].value == "") {
+      } else if (tagSelect.options[tagSelect.selectedIndex].value == "") {
         alert("태그를 선택하세요")
         return false;
-    } else if (quill.getLength() === 1) {
+      } else if (titleInput.value === "") {
+        alert("제목을 입력하세요")
+        return false;
+      } else if (quill.getLength() === 1) {
         alert("내용을 입력하세요")
         return false;
-    }
-    return true
+      }
+      return true
 }
 
 function getInsertImages() {
@@ -132,4 +136,4 @@ async function editPost() {
     } else return
 }
 
-document.getElementById('submit-btn').addEventListener('click', editPost)
+document.querySelector('.edit-submit-btn').addEventListener('click', editPost)

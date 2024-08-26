@@ -27,7 +27,7 @@
         <div class="page-wrapper">
             <div class="main-wrapper">
                 <div class="container">
-                    <header>
+                    <header class="header-content">
                         <h1 class="header-title">
                             Edit Post
                         </h1>
@@ -35,19 +35,32 @@
                 </div>
 
                 <div class="container">
-                    <div class="editor">
-                        <input id="title" type="text" placeholder="title">
-                        <select id="tag">
-                            <option value="" disabled selected>select tag</option>
-                            <option value="algorithm">Algorithm</option>
-                            <option value="cs">CS</option>
-                            <option value="htmlcss">HTML/CSS</option>
-                            <option value="javascript">Javascript</option>
-                            <option value="nodejs">NodeJS</option>
-                            <option value="react">React</option>
-                        </select>
-                        <div id="editor" style="height: 220px"></div>
-                        <button id="submit-btn">제출</button>
+                    <div class="editor-form">
+                        <div class="select-flex-wrap">
+                            <select id="categori" class="write-select">
+                                <option value="" disabled selected>select categori</option>
+                                <option>none</option>
+                            </select>
+                            
+                            <select id="tag" class="write-select">
+                                <option value="" disabled selected>select tag</option>
+                                <option value="algorithm">Algorithm</option>
+                                <option value="cs">CS</option>
+                                <option value="htmlcss">HTML/CSS</option>
+                                <option value="javascript">Javascript</option>
+                                <option value="nodejs">NodeJS</option>
+                                <option value="react">React</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <input id="title" class="write-title-input" type="text" placeholder="제목을 입력하세요">                        
+
+                        <div class="editor">
+                            <div id="editor" style="height: 50vh;"></div>
+                        </div>
+
+                        <button class="edit-submit-btn">제출</button>
                     </div>
                 </div>
             </div>

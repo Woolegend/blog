@@ -319,7 +319,8 @@ footer {
 }
 
 .comment-submit-btn,
-.write-submit-btn {
+.write-submit-btn,
+.edit-submit-btn {
     background-color: #eee;
     border: 1px solid #ccc;
     padding: 4px 8px;
@@ -512,6 +513,7 @@ footer {
 .nav-link {
     display: flex;
     align-items: center;
+    text-align: center;
     height: 5rem;
     color: var(--text-primary);
     text-decoration: none;
