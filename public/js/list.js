@@ -5,7 +5,8 @@ const tags = [
     { tag: "htmlcss", icon: "fa-brands fa-html5", title: "HTML/CSS" },
     { tag: "javascript", icon: "fa-brands fa-js", title: "Javascript" },
     { tag: "nodejs", icon: "fa-brands fa-node-js", title: "Node.js" },
-    { tag: "react", icon: "fa-brands fa-react", title: "React" }
+    { tag: "react", icon: "fa-brands fa-react", title: "React" },
+    { tag: "other", icon: "fa-regular fa-circle-user", title: "Other" }
 ]
 const tag = location.pathname.match(/\/list\/(.+)/)[1]
 

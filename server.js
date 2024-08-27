@@ -35,7 +35,7 @@ const upload = multer({
     limits: { fileSize: 5 * 1024 * 1024, files: 100 }
 })
 
-const tags = ["algorithm", "htmlcss", "javascript", "nodejs", "react"]
+const tags = ["algorithm", "htmlcss", "javascript", "nodejs", "react", "other"]
 
 // app.use(methodOverride('_method'))
 app.use(express.static(path.join(__dirname + '/public')))
@@ -51,13 +51,14 @@ app.use(passport.initialize())
 app.use(session({
     secret: process.env.SESSION_SECRET_KEY,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: { maxAge: 30 * 60 * 1000 },
     store: MongoStore.create({
         mongoUrl: process.env.MongoDB_URL,
         dbName: 'blog'
 
-    })
+    }),
+    rolling : true
 }))
 app.use(passport.session())
 
@@ -686,6 +687,7 @@ app.delete('/delete/post/:id', async (req, res, next) => {
 app.get('/user', checkLogin, async (req, res) => {
     let result = await mongoDB.collection('user').findOne({ _id: req.user._id })
 
+    console.log(req.session)
     res.render('user', { user: result })
 })
 
