@@ -2,33 +2,7 @@ const titleInput = document.querySelector('#title')
 const categoriSelect = document.querySelector('#categori')
 const tagSelect = document.querySelector('#tag')
 
-const toolbarOptions = [
-  ['bold', 'italic', 'underline', 'strike'],
-  ['blockquote', 'code-block'],
-  ['image', 'link', 'formula'],
-  [{ 'header': 1 }, { 'header': 2 }],
-  [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
-  [{ 'script': 'sub' }, { 'script': 'super' }],
-  [{ 'indent': '-1' }, { 'indent': '+1' }],
-  [{ 'size': ['small', false, 'large', 'huge'] }],
-  [{ 'color': [] }, { 'background': [] }],
-];
-
-const quill = new Quill('#editor', {
-  debug: 'warn',
-  modules: {
-    syntax: true,
-    highlight: function (text) {
-      return Prism.highlight(text, Prism.languages.javascript, 'javascript');
-    },
-    toolbar: toolbarOptions,
-  },
-  placeholder: 'Hello World!!!',
-  theme: 'snow',
-});
-
-quill.getModule('toolbar').addHandler('image', showImageDialog)
-
+// Quill.js image custom <Start>
 function showImageDialog() {
   const fileInput = document.createElement('input')
   fileInput.setAttribute('type', 'file')
@@ -58,6 +32,63 @@ async function uploadImage(file) {
     console.log(e)
   })
 }
+// Quill.js image custom <End>
+
+
+
+// Quill.js codepen embed blot custom <Start>
+const BlockEmbed = Quill.import('blots/block/embed');
+
+class CodePenBlot extends BlockEmbed {
+  static create(value) {
+    const node = super.create();
+    const id = value.split('/').pop();
+    node.setAttribute('data-codepen', value);  // 전체 URL을 저장
+    node.innerHTML = node.getAttribute('data-codepen')
+    return node;
+  }
+
+  static value(node) {
+    return node.getAttribute('data-codepen');  // 저장된 URL을 반환
+  }
+}
+
+CodePenBlot.blotName = 'codepen';
+CodePenBlot.className = 'codepen-blot';
+CodePenBlot.tagName = 'div';
+
+Quill.register(CodePenBlot);
+
+// Quill.js codepen embed blot custom <End>
+
+
+// Quill.js Editor Initialized <Start>
+const toolbarOptions = [
+  ['bold', 'italic', 'underline', 'strike'],
+  ['blockquote', 'code-block'],
+  ['image', 'link', 'formula'],
+  [{ 'header': 1 }, { 'header': 2 }],
+  [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
+  [{ 'script': 'sub' }, { 'script': 'super' }],
+  [{ 'indent': '-1' }, { 'indent': '+1' }],
+  [{ 'size': ['small', false, 'large', 'huge'] }],
+  [{ 'color': [] }, { 'background': [] }],
+  ['codepen']
+];
+
+const quill = new Quill('#editor', {
+  debug: 'warn',
+  modules: {
+    syntax: true,
+    toolbar: toolbarOptions,
+  },
+  placeholder: 'Hello World!!!',
+  theme: 'snow',
+});
+
+quill.getModule('toolbar').addHandler('image', showImageDialog)
+document.querySelector('.ql-codepen').innerHTML = '<i class="fa-brands fa-codepen"></i>'
+// Quill.js Editor Initialized <End>
 
 function checkPostFields() {
   if (categoriSelect.options[categoriSelect.selectedIndex].value == "") {
