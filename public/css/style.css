@@ -434,6 +434,14 @@ footer {
     margin-bottom: 8px;
 }
 
+.ql-code-block-container{
+    background-color: black;
+    padding: 12px;
+    margin: 8px;
+    border-radius: 8px;
+    color: #eeeeee;
+}
+
 .write-select {
     width: 49%;
     font-size: 24px;
