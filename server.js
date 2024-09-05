@@ -58,7 +58,7 @@ app.use(session({
         dbName: 'blog'
 
     }),
-    rolling : true
+    rolling: true
 }))
 app.use(passport.session())
 
