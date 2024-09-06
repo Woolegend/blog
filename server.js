@@ -601,7 +601,7 @@ app.put('/edit/:id', checkLogin, async (req, res, next) => {
             delta: delta,
             html: html,
             images: saveImages,
-            edit: new Date()
+            edit: getDatetime()
         }
 
         await mongoDB.collection('post').updateOne(
@@ -744,35 +744,6 @@ app.post('/comment', checkLogin, async (req, res) => {
     res.redirect(`/detail/${req.body.postId}`)
 })
 
-
-app.get('/manage', checkLogin, async (req, res) => {
-    if (req.user.authority !== "admin") {
-        res.status(403).send('권한 없음')
-    }
-
-    res.render("manage")
-})
-
-app.get('/manage/user', checkLogin, async (req, res) => {
-    if (req.user.authority !== "admin") {
-        res.status(403).send('권한 없음')
-    }
-    res.render("manage_user")
-})
-
-app.get('/manage/emoticon', checkLogin, async (req, res) => {
-    if (req.user.authority !== "admin") {
-        res.status(403).send('권한 없음')
-    }
-    res.render("manage_emoticon")
-})
-
-app.get('/manage/post', checkLogin, async (req, res) => {
-    if (req.user.authority !== "admin") {
-        res.status(403).send('권한 없음')
-    }
-    res.render("manage_post")
-})
 
 
 app.get('/get/comment/:id', async (req, res) => {
