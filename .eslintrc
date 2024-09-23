@@ -1,0 +1,5 @@
+{
+  "root": true,
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "ignorePatterns": ["src/**/*.test.ts", "src/frontend/generated/*"]
+}
