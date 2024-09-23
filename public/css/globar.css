@@ -62,7 +62,6 @@ body::-webkit-scrollbar-thumb {
 
 @media screen and (min-width : 48rem) {
 
-
   .main-wrapper {
       width: var(--w-2);
   }
