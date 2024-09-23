@@ -32,3 +32,59 @@ body::-webkit-scrollbar-track {
 body::-webkit-scrollbar-thumb {
   background: #6649b8;
 }
+
+.root {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: white;
+}
+
+.page-wrapper {
+  width: 100%;
+  padding-left: 5rem;
+  transition: 200ms ease;
+}
+
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: var(--w-1);
+  margin: auto;
+  margin-bottom: 60px;
+  background-color: white;
+  transition: 200ms;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+}
+
+@media screen and (min-width : 48rem) {
+
+
+  .main-wrapper {
+      width: var(--w-2);
+  }
+}
+
+@media screen and (min-width : 61rem) {
+
+  .main-wrapper {
+      width: var(--w-3);
+  }
+}
+
+@media screen and (min-width : 74rem) {
+
+  .main-wrapper {
+      width: var(--w-4);
+  }
+}
+
+@media screen and (min-width : 87rem) {
+
+  .main-wrapper {
+      width: var(--w-5);
+  }
+}
