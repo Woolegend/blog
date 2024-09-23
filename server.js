@@ -397,11 +397,12 @@ app.get('/list', async (req, res) => {
 
 app.get('/get/list', async (req, res) => {
     let tag = req.query.tag;
-    const search = tag ? {} : { tag: tag };
+    const search = tag ? { tag: tag } : undefined;
     let posts;
 
     try {
         posts = await mongoDB.collection('post').find(search).project({ username: 1, title: 1, tag: 1, date: 1 }).toArray();
+        // console.log(posts)
     } catch (e) {
         res.send(e)
     } finally {
