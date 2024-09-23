@@ -1,0 +1,10 @@
+.tag-list{
+  display: flex;
+  list-style: none;
+  width: 100%;
+  gap: 8px;
+}
+
+.tag-item{
+
+}
