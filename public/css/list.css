@@ -1,0 +1,79 @@
+.tag-list {
+  display: flex;
+  list-style: none;
+  margin: 8px 0;
+  width: 100%;
+  gap: 8px;
+}
+
+.tag-item {
+  padding: 4px 12px;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  font-size: 12px;
+}
+
+.tag-link {
+  text-decoration: none;
+  color: black;
+  margin-left: 4px;
+}
+
+.tag-link:visited {
+  color: black;
+}
+
+.tag-item .fa-html5 {
+  color: #E44D26;
+}
+
+.tag-item .fa-js {
+  color: #DBBB34;
+}
+
+.tag-item .fa-node-js {
+  color: #84BF08;
+  ;
+}
+
+.tag-item .fa-react {
+  color: #66DBFB;
+}
+
+.card {
+  width: 12rem;
+  height: 15rem;
+
+  overflow: hidden;
+
+  padding: 0;
+  margin: 0.5rem;
+
+  background-color: white;
+  box-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.12),
+    0 1px 1px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+  transform: translate(0, 0);
+}
+
+.card:hover {
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+  transform: translate(0, -0.5rem);
+}
+
+.card-thumbnail {
+  width: 100%;
+}
+
+.card-main {
+  padding: 0.5rem;
+}
+
+.card-date {
+  opacity: 0.5;
+  font-weight: bold;
+  font-size: 0.7rem;
+}

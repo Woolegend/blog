@@ -392,33 +392,20 @@ app.post('/write', checkLogin, async (req, res) => {
 })
 
 app.get('/list', async (req, res) => {
-    res.redirect('/')
-})
-
-app.get('/list/:tag', async (req, res) => {
-    let tag = req.params.tag
-
-    // 태그가 존재하는지 펀별
-    let flag = false
-    tags.some((e) => {
-        if (e === tag) return flag = true
-        else return false
-    })
-
-    // 존재하지 않는 태그면 전체 목록으로 이동
-    if (!flag) return res.redirect('/list')
-
-    // 존재하는 태그라능
-    return res.render('list')
+    res.render('list')
 })
 
 app.get('/get/list', async (req, res) => {
+    let tag = req.query.tag;
+    const search = tag ? { tag: tag } : undefined;
+    let posts;
+
     try {
-        let listTag = req.query.tag
-        let posts = await mongoDB.collection('post').find({ tag: listTag }).project({ username: 1, title: 1, tag: 1, date: 1 }).toArray()
-        res.json(posts)
+        posts = await mongoDB.collection('post').find(search).project({ username: 1, title: 1, tag: 1, date: 1 }).toArray();
     } catch (e) {
-        res.send(e)
+        res.send(e);
+    } finally {
+        res.json(posts);
     }
 })
 
