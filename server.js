@@ -397,7 +397,7 @@ app.get('/list', async (req, res) => {
 
 app.get('/get/list', async (req, res) => {
     let tag = req.query.tag;
-    const search = tag ? { tag: tag } : undefined;
+    const search = { tag: tag } ?? undefined;
     let posts;
 
     try {
