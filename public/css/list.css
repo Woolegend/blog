@@ -40,6 +40,10 @@
   color: #66DBFB;
 }
 
+.tag-item .fa-git-alt{
+  color: #F05639;
+}
+
 .card {
   width: 12rem;
   height: 15rem;

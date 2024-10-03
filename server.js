@@ -403,10 +403,9 @@ app.get('/get/list', async (req, res) => {
     try {
         posts = await mongoDB.collection('post').find(search).project({ username: 1, title: 1, tag: 1, date: 1 }).toArray();
     } catch (e) {
-        res.send(e);
-    } finally {
-        res.json(posts);
+        return res.send(e);
     }
+    return res.json(posts);
 })
 
 app.get('/get/post', async (req, res) => {

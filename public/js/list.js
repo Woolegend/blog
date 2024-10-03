@@ -1,36 +1,7 @@
 const cardContainer = document.querySelector('.card-container')
 const headerTitle = document.querySelector('.header-title')
-
-const tags = [
-  { tag: "algorithm", icon: "fa-solid fa-code", title: "Algorithm" },
-  { tag: "htmlcss", icon: "fa-brands fa-html5", title: "HTML/CSS" },
-  { tag: "javascript", icon: "fa-brands fa-js", title: "Javascript" },
-  { tag: "nodejs", icon: "fa-brands fa-node-js", title: "NodeJS" },
-  { tag: "react", icon: "fa-brands fa-react", title: "React" },
-  { tag: "other", icon: "fa-solid fa-ellipsis", title: "Other" }
-]
-
 const urlParams = new URLSearchParams(location.search);
 const tag = urlParams.get('tag');
-
-const tagList = document.querySelector('.tag-list');
-tags.forEach(e => {
-  const tag = document.createElement('li');
-  tag.classList.add('tag-item');
-
-  const a = document.createElement('a');
-  a.setAttribute('href', location.pathname + `?tag=${e.tag}`);
-  a.classList.add('tag-link');
-  a.textContent = e.title;
-
-  const i = document.createElement('i');
-  i.setAttribute('class', e.icon);
-
-  tag.appendChild(i);
-  tag.appendChild(a);
-  tagList.appendChild(tag);
-})
-
 
 
 function addPostCards(posts) {
