@@ -130,10 +130,15 @@ axios({
         "id": `${location.pathname.match(/\/edit\/(.+)/)[1]}`
     },
 }).then((res) => {
-    const { title, tag, delta } = res.data;
+    const { title, tag, categori, delta } = res.data;
 
     titleInput.value = title
     quill.setContents(delta)
+    for (let i = 0; i < categoriSelect.length; i++) {
+        categoriSelect[i].value == categori ?
+            categoriSelect[i].selected = true :
+            categoriSelect[i].selected = false
+    }
     for (let i = 0; i < tagSelect.length; i++) {
         tagSelect[i].value == tag ?
             tagSelect[i].selected = true :
@@ -147,6 +152,7 @@ axios({
  * 게시물 저장하기
  */
 async function editPost() {
+    const categori = categoriSelect.options[categoriSelect.selectedIndex].value
     const tag = tagSelect.options[tagSelect.selectedIndex].value
     const delta = quill.getContents()
     const html = quill.root.innerHTML
@@ -158,6 +164,7 @@ async function editPost() {
             url: `/edit/${location.pathname.match(/\/edit\/(.+)/)[1]}`,
             data: {
                 title: titleInput.value,
+                categori: categori,
                 tag: tag,
                 delta: delta,
                 html: html,

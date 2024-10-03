@@ -333,7 +333,7 @@ app.get('/write', checkLogin, async (req, res, next) => {
  */
 app.post('/write', checkLogin, async (req, res) => {
     try {
-        let { title, tag, delta, html, images } = req.body
+        let { title, categori, tag, delta, html, images } = req.body
         let saveImages = [] // 실제 저장할 이미지 모음
         let deleteImages = [] // 실제 사용하지 않은 이미지
         let temp = await mongoDB.collection('temp')
@@ -375,6 +375,7 @@ app.post('/write', checkLogin, async (req, res) => {
             userId: req.user._id,
             username: req.user.username,
             title: title,
+            categori: categori,
             tag: tag,
             delta: delta,
             html: html,
@@ -396,8 +397,9 @@ app.get('/list', async (req, res) => {
 })
 
 app.get('/get/list', async (req, res) => {
-    let tag = req.query.tag;
-    const search = { tag: tag } ?? undefined;
+    const tag = req.query.tag ?? undefined;
+    const categori = req.query.categori ?? undefined;
+    const search = { categori: categori, tag: tag };
     let posts;
 
     try {
@@ -544,7 +546,7 @@ app.get('/edit/:id', async (req, res) => {
 app.put('/edit/:id', checkLogin, async (req, res, next) => {
     try {
         const postId = new ObjectId(req.params.id)
-        let { title, tag, delta, html, images } = req.body
+        let { title, categori, tag, delta, html, images } = req.body
         let post = await mongoDB.collection('post').findOne({ _id: postId })
         let temp = await mongoDB.collection('temp').findOne({ userId: req.user._id })
 
@@ -583,6 +585,7 @@ app.put('/edit/:id', checkLogin, async (req, res, next) => {
 
         const editPost = {
             title: title,
+            categori: categori,
             tag: tag,
             delta: delta,
             html: html,

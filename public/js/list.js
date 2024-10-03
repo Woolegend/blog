@@ -1,6 +1,7 @@
 const cardContainer = document.querySelector('.card-container')
 const headerTitle = document.querySelector('.header-title')
 const urlParams = new URLSearchParams(location.search);
+const categori = urlParams.get('categori');
 const tag = urlParams.get('tag');
 
 
@@ -41,6 +42,7 @@ axios({
   method: 'get',
   url: '/get/list',
   params: {
+    "categori": categori,
     "tag": tag
   }
 }).then((res) => {
