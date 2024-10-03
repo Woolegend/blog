@@ -2,69 +2,69 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="/css/login.css">
 </head>
 
 <body>
-    <div class="login-background">
+  <div class="login-background">
 
-        <div class="login-container">
-            <h2>Welcome Back!</h2>
+    <div class="login-container">
+      <h2>Welcome Back!</h2>
 
-            <button class="social-login-btn">
-                <img src="/asset/google-logo.png" alt="">
-                <p>Signed With Google</p>
-            </button>
+      <button class="social-login-btn">
+        <img src="/asset/google-logo.png" alt="">
+        <p>Signed With Google</p>
+      </button>
 
-            <div class="black-line">
-                <div></div>
-                <p>or</p>
-                <div></div>
-            </div>
+      <div class="black-line">
+        <div></div>
+        <p>or</p>
+        <div></div>
+      </div>
 
-            <form class="login-form" action="/login" method="post">
-                <input name="username" type="text" placeholder="username" autocomplete="current-password">
-                <input name="password" type="password" placeholder="password" autocomplete="current-password">
-                <button type="submit">Sign In</button>
-            </form>
+      <form class="login-form" action="/login" method="post">
+        <input name="username" type="text" placeholder="username" autocomplete="current-password">
+        <input name="password" type="password" placeholder="password" autocomplete="current-password">
+        <button type="submit">Sign In</button>
+      </form>
 
-            <!-- <button>sign up</button> -->
-        </div>
-
+      <!-- <button>sign up</button> -->
     </div>
 
-    <script>
-        const form = document.querySelector('.login-form')
+  </div>
 
-        form.addEventListener('submit', async function (e) {
-            e.preventDefault()
-            const { pathname, search } = location
-            const url = pathname + search
-            const formData = new FormData(e.target)
-            const data = {}
-            for(const [key, value] of formData.entries()){
-                data[key] = value;
-            }
+  <script>
+    const form = document.querySelector('.login-form')
 
-            await axios({
-                method: "post",
-                url: url,
-                data: data
-            }).then(res => {
-                location.href = res.data.url
-            }).catch(e => {
-                console.log(e)
-            })
-        })
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault()
+      const { pathname, search } = location
+      const url = pathname + search
+      const formData = new FormData(e.target)
+      const data = {}
+      for (const [key, value] of formData.entries()) {
+        data[key] = value;
+      }
 
-        document.querySelector('.social-login-btn').addEventListener('click', function(){
-            alert('업데이트 예정이라능')
-        })
-    </script>
+      await axios({
+        method: "post",
+        url: url,
+        data: data
+      }).then(res => {
+        location.href = res.data.url
+      }).catch(e => {
+        console.log(e)
+      })
+    })
+
+    document.querySelector('.social-login-btn').addEventListener('click', function () {
+      alert('업데이트 예정이라능')
+    })
+  </script>
 </body>
 
 </html>

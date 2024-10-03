@@ -333,7 +333,7 @@ app.get('/write', checkLogin, async (req, res, next) => {
  */
 app.post('/write', checkLogin, async (req, res) => {
     try {
-        let { title, tag, delta, html, images } = req.body
+        let { title, categori, tag, delta, html, images } = req.body
         let saveImages = [] // 실제 저장할 이미지 모음
         let deleteImages = [] // 실제 사용하지 않은 이미지
         let temp = await mongoDB.collection('temp')
@@ -375,6 +375,7 @@ app.post('/write', checkLogin, async (req, res) => {
             userId: req.user._id,
             username: req.user.username,
             title: title,
+            categori: categori,
             tag: tag,
             delta: delta,
             html: html,
@@ -392,34 +393,21 @@ app.post('/write', checkLogin, async (req, res) => {
 })
 
 app.get('/list', async (req, res) => {
-    res.redirect('/')
-})
-
-app.get('/list/:tag', async (req, res) => {
-    let tag = req.params.tag
-
-    // 태그가 존재하는지 펀별
-    let flag = false
-    tags.some((e) => {
-        if (e === tag) return flag = true
-        else return false
-    })
-
-    // 존재하지 않는 태그면 전체 목록으로 이동
-    if (!flag) return res.redirect('/list')
-
-    // 존재하는 태그라능
-    return res.render('list')
+    res.render('list')
 })
 
 app.get('/get/list', async (req, res) => {
+    const tag = req.query.tag ?? undefined;
+    const categori = req.query.categori ?? undefined;
+    const search = { categori: categori, tag: tag };
+    let posts;
+
     try {
-        let listTag = req.query.tag
-        let posts = await mongoDB.collection('post').find({ tag: listTag }).project({ username: 1, title: 1, tag: 1, date: 1 }).toArray()
-        res.json(posts)
+        posts = await mongoDB.collection('post').find(search).project({ username: 1, title: 1, tag: 1, date: 1 }).toArray();
     } catch (e) {
-        res.send(e)
+        return res.send(e);
     }
+    return res.json(posts);
 })
 
 app.get('/get/post', async (req, res) => {
@@ -558,7 +546,7 @@ app.get('/edit/:id', async (req, res) => {
 app.put('/edit/:id', checkLogin, async (req, res, next) => {
     try {
         const postId = new ObjectId(req.params.id)
-        let { title, tag, delta, html, images } = req.body
+        let { title, categori, tag, delta, html, images } = req.body
         let post = await mongoDB.collection('post').findOne({ _id: postId })
         let temp = await mongoDB.collection('temp').findOne({ userId: req.user._id })
 
@@ -597,6 +585,7 @@ app.put('/edit/:id', checkLogin, async (req, res, next) => {
 
         const editPost = {
             title: title,
+            categori: categori,
             tag: tag,
             delta: delta,
             html: html,

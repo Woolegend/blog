@@ -1,0 +1,102 @@
+@import url(./globar.css);
+
+.login-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.login-container {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background-color: white;
+  width: 30rem;
+  height: 24rem;
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+.login-container h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-form {
+  margin: 1rem 0;
+}
+
+.login-form input {
+  width: 100%;
+  border: 2px solid #eee;
+  border-radius: 2rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.login-form input:active {
+  border: 2px solid var(--bg-secondary);
+}
+
+.login-form button {
+  width: 100%;
+  background-color: var(--bg-secondary);
+  padding: 0.5rem;
+  border: none;
+  border-radius: 1.5rem;
+
+  color: var(--text-secondary);
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.login-form button:hover {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.social-login-btn {
+  display: flex;
+  justify-content: center;
+
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid #eee;
+  border-radius: 2rem;
+  background-color: white;
+
+  margin-bottom: 1rem;
+
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.social-login-btn img {
+  width: 1rem;
+  margin-right: 1rem;
+}
+
+.black-line {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.black-line div {
+  width: 40%;
+  height: 0.1rem;
+  background-color: black;
+}
+
+.black-line p {
+  width: 10%;
+  color: black;
+  text-align: center;
+}

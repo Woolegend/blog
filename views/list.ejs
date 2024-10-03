@@ -2,44 +2,92 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <title>Document</title>
-    <link href="/css/style.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <title>Document</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/list.css">
 </head>
 
 <body>
-    <div class="root">
-        <div class="left-navigaion">
-            <%- include('nav') %>
-        </div>
-
-        <div class="page-wrapper">
-
-            <div class="main-wrapper">
-                <div class="container">
-                    <header class="header-content">
-                        <h1 class="header-title"></h1>
-                    </header>
-                </div>
-                <!-- <div class="container">
-                    <p>필터</p>
-                    <p>검색창</p>
-                    <p>태그</p>
-                </div> -->
-                <div class="container">
-                    <div class="card-container"></div>
-                </div>
-            </div>
-
-        </div>
+  <div class="root">
+    <div class="left-navigaion">
+      <%- include('nav') %>
     </div>
 
+    <div class="page-wrapper">
 
+      <div class="main-wrapper">
+        <div class="container">
+          <header class="header-content">
+            <h1 class="header-title">
+              <i class="fa-solid fa-code"></i>
+              <span>Stack</span>
+            </h1>
+          </header>
+        </div>
+        <div class="container">
+          <ul class="tag-list">
+            <li class="tag-item">
+              <a class="tag-link" href="/list">
+                <i class="fa-solid fa-bars"></i>
+                All
+              </a>
+            </li>
+            <li class="tag-item">
+              <a class="tag-link" href="/list?categori=stack&tag=algorithm">
+                <i class="fa-solid fa-code"></i>
+                Algorithm
+              </a>
+            </li>
+            <li class="tag-item">
+              <a class="tag-link" href="/list?categori=stack&tag=htmlcss">
+                <i class="fa-brands fa-html5"></i>
+                HTML/CSS
+              </a>
+            </li>
+            <li class="tag-item">
+              <a class="tag-link" href="/list?categori=stack&tag=javascript">
+                <i class="fa-brands fa-js"></i>
+                JS
+              </a>
+            </li>
+            <li class="tag-item">
+              <a class="tag-link" href="/list?categori=stack&tag=nodejs">
+                <i class="fa-brands fa-node-js"></i>
+                NodeJS
+              </a>
+            </li>
+            <li class="tag-item">
+              <a class="tag-link" href="/list?categori=stack&tag=react">
+                <i class="fa-brands fa-react"></i>
+                React
+              </a>
+            </li>
+            <li class="tag-item">
+              <a class="tag-link" href="/list?categori=stack&tag=git">
+                <i class="fa-brands fa-git-alt"></i>              
+                Git
+              </a>
+            </li>
+            <li class="tag-item">
+              <a class="tag-link" href="/list?categori=stack&tag=other">
+                <i class="fa-solid fa-ellipsis"></i>
+                Other
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="container">
+          <div class="card-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <script type="module" src="/js/list.js"></script>
-    <script type="module" src="/js/nav.js"></script>
+  <script type="module" src="/js/list.js"></script>
+  <script type="module" src="/js/nav.js"></script>
 </body>
 
 </html>
